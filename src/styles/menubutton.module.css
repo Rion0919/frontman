@@ -1,0 +1,11 @@
+.btnLayout {
+    height: 249px;
+    width: 340px;
+    padding: 64px 87px;
+    background-color: #C5C5C5;
+    border: 5px solid #72B471;
+    border-radius: 20px;
+    font-size: 37px;
+    color: white;
+    font-weight: bold;
+}
