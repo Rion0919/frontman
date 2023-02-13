@@ -1,113 +1,112 @@
 .container {
-    margin: 30px auto;
-    height: 100vh;
-    width: 1300px;
+  margin: 30px auto;
+  height: 100vh;
+  width: 1300px;
 }
 
 .searchForm input {
-    position: relative;
-    top: -3px;
-    height: 45px;
-    width: 345px;
-    border: none;
-    border-radius: 20px;
-    padding: 11px 0 11px 22px;
+  position: relative;
+  top: -3px;
+  height: 45px;
+  width: 345px;
+  border: none;
+  border-radius: 20px;
+  padding: 11px 0 11px 22px;
 }
 
 .searchBtn {
-    cursor: pointer;
-    padding: 7px 40px;
-    background-color: #72B471;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 20px;
-    height: 45px;
-    font-size: larger;
-    margin-left: 26px;
+  cursor: pointer;
+  padding: 7px 40px;
+  background-color: #72b471;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  height: 45px;
+  font-size: larger;
+  margin-left: 26px;
 }
 
 .noCustomer {
-    margin-top: 19px;
+  margin-top: 19px;
 }
 
 .listHeader {
-    display: flex;
-    justify-content: space-between;
-    position: sticky;
-    width: 1000px;
-    top: 0px;
-    margin: 0 auto;
-    overflow: hidden;
-    font-size: x-large;
-    border-bottom: 1px solid black;
-    background-color: white;
-    padding-top: 30px;
-    padding-right: 316px;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  width: 1000px;
+  top: 0px;
+  margin: 0 auto;
+  overflow: hidden;
+  font-size: x-large;
+  border-bottom: 1px solid black;
+  background-color: white;
+  padding-top: 30px;
+  padding-right: 316px;
 }
 
 .listHeader div:first-child {
-    margin: 0 45px;
+  margin: 0 45px;
 }
 
 .listHeader div:nth-child(2) {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .customerList {
-    position: relative;
-    height: 386px;
-    margin-top: 19px;
-    background-color: white;
-    border-radius: 20px;
-    box-shadow: 4px 4px 4px #00000042;
-    padding: 0 41px 34px 41px;
-    overflow: scroll;
+  position: relative;
+  height: 386px;
+  margin-top: 19px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 4px 4px 4px #00000042;
+  padding: 0 41px 34px 41px;
+  overflow: scroll;
 }
 
-
 .customerList li {
-    width: 1000px;
-    margin: 0 auto;
-    padding: 15px;
-    font-size: larger;
-    display: flex;
-    border-bottom: 1px solid #C5C5C5;
-    justify-content: space-between;
-    align-items: center;
-    list-style-type: none;
+  width: 1000px;
+  margin: 0 auto;
+  padding: 15px;
+  font-size: larger;
+  display: flex;
+  border-bottom: 1px solid #c5c5c5;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
 }
 
 .customerList li button {
-    cursor: pointer;
-    width: 100px;
-    height: 45px;
-    padding: 10px 25px;
-    border: none;
-    border-radius: 20px;
-    color: white;
-    font-size: large;
-    line-height: 25px;
-    background-color: #53A2FF;
+  cursor: pointer;
+  width: 100px;
+  height: 45px;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-size: large;
+  line-height: 25px;
+  background-color: #53a2ff;
 }
 
 .customerList li button:last-child {
-    background-color: #FF8888;
+  background-color: #ff8888;
 }
 
 .addCustomer {
-    cursor: pointer;
-    position: relative;
-    top: 79px;
-    right: -1073px;
-    background-color: #53A2FF;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: x-large;
-    padding: 23px 34px;
-    width: 228px;
-    height: 80px;
-    box-shadow: 0 4px 4px #00000042;
+  cursor: pointer;
+  position: relative;
+  top: 79px;
+  right: -1073px;
+  background-color: #53a2ff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: x-large;
+  padding: 23px 34px;
+  width: 228px;
+  height: 80px;
+  box-shadow: 0 4px 4px #00000042;
 }

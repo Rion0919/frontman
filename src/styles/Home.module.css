@@ -18,7 +18,7 @@
 
 .title h1 {
   font-size: 140px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .loginForm {
@@ -31,7 +31,7 @@
 
 .loginForm input {
   border: none;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   border-radius: 20px;
   width: 350px;
   height: 50px;
@@ -58,7 +58,7 @@
 .loginBtn button {
   border-radius: 500px;
   border: none;
-  background-color: #53A2FF;
+  background-color: #53a2ff;
   color: white;
   padding: 27px 45px;
   box-shadow: 0px 4px #00000042;

@@ -1,16 +1,14 @@
 import Header from "components/Header";
 import { Layout } from "components/Layout";
 import { useRouter } from "next/router";
-import styles from "src/styles/room.module.css"
+import styles from "src/styles/room.module.css";
 
 export default function Room() {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <Layout>
-      <Header user={router.query.loginId}/>
-      <div>
-        hi, this is room page
-      </div>
+      <Header user={router.query.loginId} />
+      <div>hi, this is room page</div>
     </Layout>
   );
 }

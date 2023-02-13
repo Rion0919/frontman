@@ -6,8 +6,8 @@ import styles from "src/styles/customer.module.css";
 export default function Customer() {
   const router = useRouter();
   const toAddCustomer = () => {
-    router.push({pathname: "/customer/addcustomer"}, "/customer/addcustomer")
-  }
+    router.push({ pathname: "/customer/addcustomer" }, "/customer/addcustomer");
+  };
   return (
     <Layout>
       <Header user={router.query.loginId} />
@@ -75,7 +75,9 @@ export default function Customer() {
             </li>
           </ul>
         </div>
-        <button className={styles.addCustomer} onClick={toAddCustomer}>顧客登録</button>
+        <button className={styles.addCustomer} onClick={toAddCustomer}>
+          顧客登録
+        </button>
       </div>
     </Layout>
   );
