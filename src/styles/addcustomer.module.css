@@ -1,0 +1,9 @@
+.container {
+  margin: 30px auto;
+  height: 100vh;
+  width: 1300px;
+}
+
+.container input {
+    display: inline-block;
+}
