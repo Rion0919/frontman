@@ -79,8 +79,10 @@
     color: rgb(142, 142, 142);
 }
 
-.foreigner {
-    
+.japaneseCustomer input,
+.japaneseCustomer select {
+    background-color: rgb(231, 231, 231);
+    border: 1px solid rgb(255, 255, 255);
 }
 
 .submitBtn {
