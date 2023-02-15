@@ -5,54 +5,21 @@ import { useCallback, useEffect, useState } from "react";
 import styles from "src/styles/addcustomer.module.css";
 
 export default function AddCustomer() {
-  const [customers, setCustomers] = useState([]);
-  const [japanese, setJapanese] = useState(true);
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
-  const [birth, setBirth] = useState("");
   const [date, setDate] = useState(new Date().getDate());
-  const [data, setData] = useState({
-    japanese: japanese,
-    name: "",
-    kana: "",
-    year: 0,
-    month: 0,
-    date: 0,
-    age: 0,
-    gender: "",
-    prefecture: "",
-    zip: "",
-    address_1: "",
-    address_2: "",
-    tel: "",
-    email: "",
-    country: "",
-    passport_id: "",
-    passport_img: "",
-  });
+  const [japanese, setJapanese] = useState(true);
   const router = useRouter();
-  console.log("render");
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-    console.log(data);
-  };
 
   // 選択した日付を取得
   const onSelectedYear = (e) => {
     setYear(e.target.value);
-    const str = document.getElementById("birthyear").value;
-    setData({ ...data, year: str });
   };
   const onSelectedMonth = (e) => {
     setMonth(e.target.value);
-    const str = document.getElementById("birthmonth").value;
-    setData({ ...data, month: str });
   };
   const onSelectedDate = (e) => {
     setDate(e.target.value);
-    const str = document.getElementById("birthdate").value;
-    setData({ ...data, date: str });
   };
 
   // selectタグの子要素（optionタグ）追加
@@ -106,31 +73,6 @@ export default function AddCustomer() {
     }
   };
 
-  // 選択した性別を取得
-  const onSelectGender = () => {
-    const str = document.getElementById("gender").value;
-    setData({ ...data, gender: str });
-  };
-
-  // 選択した都道府県を取得
-  const onSelectPrefecture = () => {
-    const str = document.getElementById("prefecture").value;
-    setData({ ...data, prefecture: str });
-  };
-
-  // 選択した国籍を取得
-  const onSelectCountry = () => {
-    const str = document.getElementById("country").value;
-    setData({ ...data, country: str });
-  };
-
-  // 選択した画像ファイルを取得
-  const onSelectImg = (e) => {
-    const str = document.getElementById("passport_img").value;
-    console.log(str)
-    setData({ ...data, passport_img: str });
-  };
-
   useEffect(() => {
     createYear();
     createMonth();
@@ -152,84 +94,47 @@ export default function AddCustomer() {
             <input
               className={styles.radioStyle}
               type="radio"
-              name="japanese"
+              name="日本"
               id="日本"
-              value={true}
-              onChange={() => {
-                setJapanese(true);
-                handleChange;
-              }}
+              value="日本"
+              onClick={() => setJapanese(true)}
             />
             <label htmlFor="日本">日本</label>
             <input
               className={styles.radioStyle}
               type="radio"
-              name="japanese"
+              name="日本"
               id="日本以外"
-              value={false}
-              onChange={() => {
-                setJapanese(false);
-                handleChange;
-              }}
+              value="日本以外"
+              onClick={() => setJapanese(false)}
             />
             <label htmlFor="日本以外">日本以外</label>
           </div>
           <div className={styles.inputStyle}>
             <span>氏名：</span>
-            <input
-              className={styles.nameStyle}
-              type="text"
-              name="name"
-              value={data.name}
-              onChange={handleChange}
-            />
+            <input className={styles.nameStyle} type="text" />
           </div>
           <div className={styles.inputStyle}>
             <span>フリガナ：</span>
-            <input
-              className={styles.kanaStyle}
-              type="text"
-              name="kana"
-              value={data.kana}
-              onChange={handleChange}
-            />
+            <input className={styles.kanaStyle} type="text" />
           </div>
           <div className={styles.inputStyle}>
             <span>生年月日：</span>
-            <select
-              id="birthyear"
-              value={year}
-              onChange={onSelectedYear}
-            ></select>
+            <select id="birthyear" onChange={onSelectedYear}></select>
             <select
               className={styles.birthStyle}
               id="birthmonth"
-              value={month}
               onChange={onSelectedMonth}
             ></select>
-            <select
-              id="birthdate"
-              value={date}
-              onChange={onSelectedDate}
-            ></select>
+            <select id="birthdate" onChange={onSelectedDate}></select>
           </div>
           <div className={styles.inputStyle}>
             <span>年齢：</span>
-            <input
-              className={styles.ageStyle}
-              type="number"
-              name="age"
-              value={data.age}
-              onChange={handleChange}
-            />
+            <input className={styles.ageStyle} type="number" />
           </div>
           <div className={styles.inputStyle}>
             <span>性別：</span>
-            <select
-              className={styles.genderStyle}
-              id="gender"
-              onChange={onSelectGender}
-            >
+            <select className={styles.genderStyle} id="gender">
               <option value=""></option>
               <option value="男性">男性</option>
               <option value="女性">女性</option>
@@ -238,7 +143,7 @@ export default function AddCustomer() {
           <div>----お住まいの地域----</div>
           <div className={styles.inputStyle}>
             <span>都道府県：</span>
-            <select id="prefecture" onChange={onSelectPrefecture}>
+            <select id="prefecture">
               <option value="">都道府県</option>
               <option value="北海道">北海道</option>
               <option value="青森県">青森県</option>
@@ -291,22 +196,13 @@ export default function AddCustomer() {
           </div>
           <div className={styles.inputStyle}>
             <span>郵便番号：</span>
-            <input
-              type="text"
-              placeholder="ハイフンを含む"
-              name="zip"
-              value={data.zip}
-              onChange={handleChange}
-            />
+            <input type="text" placeholder="ハイフンを含む" />
           </div>
           <div className={styles.inputStyle}>
             <span>住所1：</span>
             <input
               className={styles.addressStyle}
               type="text"
-              name="address_1"
-              value={data.address_1}
-              onChange={handleChange}
               placeholder="市区町村番地"
             />
           </div>
@@ -315,9 +211,6 @@ export default function AddCustomer() {
             <input
               className={styles.addressStyle}
               type="text"
-              name="address_2"
-              value={data.address_2}
-              onChange={handleChange}
               placeholder="建物名、号室など"
             />
           </div>
@@ -326,9 +219,6 @@ export default function AddCustomer() {
             <input
               className={styles.telStyle}
               type="text"
-              name="tel"
-              value={data.tel}
-              onChange={handleChange}
               placeholder="固定電話、携帯電話（ハイフンを含む）"
             />
           </div>
@@ -337,9 +227,6 @@ export default function AddCustomer() {
             <input
               className={styles.mailStyle}
               type="text"
-              name="email"
-              value={data.email}
-              onChange={handleChange}
               placeholder="任意"
             />
           </div>
@@ -349,11 +236,7 @@ export default function AddCustomer() {
           >
             <div className={styles.inputStyle}>
               <span>国籍：</span>
-              <select
-                className={styles.countryStyles}
-                id="country"
-                onChange={onSelectCountry}
-              >
+              <select className={styles.countryStyles} id="country">
                 <option value="">Country...</option>
                 <option value="Afganistan">Afghanistan</option>
                 <option value="Albania">Albania</option>
@@ -637,32 +520,17 @@ export default function AddCustomer() {
             </div>
             <div className={styles.inputStyle}>
               <span>旅券番号：</span>
-              <input
-                type="text"
-                name="passport_id"
-                value={data.passport_id}
-                onChange={handleChange}
-              />
+              <input type="text" />
             </div>
             <div className={styles.inputStyle}>
               <span>パスポート写真：</span>
-              <input
-                type="file"
-                name="passport_img"
-                onChange={onSelectImg}
-                id="passport_id"
-              />
+              <input type="file" />
             </div>
           </div>
 
           <button
             className={styles.submitBtn}
-            onClick={() => {
-              if(japanese) {
-                setData({...data, country: "Japan"})
-              }
-              console.log(data)
-            }}
+            onClick={() => console.log(year, month, date)}
           >
             登録
           </button>

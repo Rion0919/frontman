@@ -1,16 +1,22 @@
 import Header from "components/Header";
 import { Layout } from "components/Layout";
 import { useRouter } from "next/router";
+import { useRef } from "react";
 import styles from "src/styles/customer.module.css";
 
 export default function Customer() {
   const router = useRouter();
+  const ref = useRef(router.query.loginId)
+  console.log(ref.current)
   const toAddCustomer = () => {
     router.push({ pathname: "/customer/addcustomer" }, "/customer/addcustomer");
   };
+  const toUpdateCustomer = () => {
+    router.push({pathname: "/customer/updatecustomer"}, "/customer/updatecustomer")
+  }
   return (
     <Layout>
-      <Header user={router.query.loginId} />
+      <Header user={ref.current} />
       <div className={styles.container}>
         <div className={styles.searchForm}>
           <input type="text" placeholder="顧客検索" />
@@ -30,7 +36,7 @@ export default function Customer() {
               <div>山田里温</div>
               <div>2023/02/12</div>
               <div>2023/02/12</div>
-              <button>更新</button>
+              <button onClick={toUpdateCustomer}>更新</button>
               <button>削除</button>
             </li>
             <li>
@@ -38,7 +44,7 @@ export default function Customer() {
               <div>山田里温</div>
               <div>2023/02/12</div>
               <div>2023/02/12</div>
-              <button>更新</button>
+              <button onClick={toUpdateCustomer}>更新</button>
               <button>削除</button>
             </li>
             <li>
@@ -46,7 +52,7 @@ export default function Customer() {
               <div>山田里温</div>
               <div>2023/02/12</div>
               <div>2023/02/12</div>
-              <button>更新</button>
+              <button onClick={toUpdateCustomer}>更新</button>
               <button>削除</button>
             </li>
             <li>
@@ -54,7 +60,7 @@ export default function Customer() {
               <div>山田里温</div>
               <div>2023/02/12</div>
               <div>2023/02/12</div>
-              <button>更新</button>
+              <button onClick={toUpdateCustomer}>更新</button>
               <button>削除</button>
             </li>
             <li>
@@ -62,7 +68,7 @@ export default function Customer() {
               <div>山田里温</div>
               <div>2023/02/12</div>
               <div>2023/02/12</div>
-              <button>更新</button>
+              <button onClick={toUpdateCustomer}>更新</button>
               <button>削除</button>
             </li>
             <li>
@@ -70,7 +76,7 @@ export default function Customer() {
               <div>山田里温</div>
               <div>2023/02/12</div>
               <div>2023/02/12</div>
-              <button>更新</button>
+              <button onClick={toUpdateCustomer}>更新</button>
               <button>削除</button>
             </li>
           </ul>

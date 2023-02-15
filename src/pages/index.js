@@ -2,18 +2,38 @@ import styles from "@/styles/home.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import db, { auth } from "./api/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { getDoc, doc, setDoc } from "firebase/firestore";
 
 export default function Home() {
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const route = useRouter();
 
-  const loginHandler = () => {
-    console.log(`login successed ${loginId}/${password}`);
-    route.push(
-      { pathname: "/top", query: { loginId: loginId, password: password } },
-      "/top"
-    );
+  const loginHandler = async () => {
+    try {
+      const result = await signInWithEmailAndPassword(auth, loginId, password);
+      console.log(`login successed ${loginId}/${password}`);
+      const user = result.user;
+      console.log(user);
+      const userDoc = doc(db, "users", user.uid)
+      const docSnap = await getDoc(userDoc)
+      if(!docSnap.exists()) {
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          password: password,
+        })
+        console.log("new user added");
+      }
+      route.push(
+        { pathname: "/top", query: { loginId: loginId, password: password } },
+        "/top"
+      );
+    } catch (err) {
+      console.log("--Login Error--");
+      console.log(err);
+    }
   };
   return (
     <div className={styles.container}>
@@ -24,10 +44,9 @@ export default function Home() {
       <form className={styles.loginForm}>
         <input
           type="text"
-          placeholder="ログインID"
+          placeholder="ログイン用メールアドレス"
           onChange={(e) => {
             setLoginId(e.target.value);
-            console.log(loginId);
           }}
         />
         <input
@@ -35,7 +54,6 @@ export default function Home() {
           placeholder="パスワード"
           onChange={(e) => {
             setPassword(e.target.value);
-            console.log(password);
           }}
         />
       </form>

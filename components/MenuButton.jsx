@@ -1,11 +1,13 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { memo, useRef } from "react";
 import styles from "src/styles/menubutton.module.css";
 
-const MenuButton = ({ label, href, as }) => {
+const MenuButton = ({ label, href, as, children }) => {
   const route = useRouter();
+  const ref = useRef(children)
+  console.log(ref.current)
   const handleRoute = () => {
-    route.push({ pathname: href }, as);
+    route.push({ pathname: href, query: {loginId: children} }, as);
   };
   return (
     <button className={styles.btnLayout} onClick={handleRoute}>
@@ -14,4 +16,4 @@ const MenuButton = ({ label, href, as }) => {
   );
 };
 
-export default MenuButton;
+export default memo(MenuButton);
