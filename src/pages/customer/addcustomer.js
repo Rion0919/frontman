@@ -1,15 +1,16 @@
 import Header from "components/Header";
 import { Layout } from "components/Layout";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import db from "../api/firebase";
+import { addDoc, collection } from "firebase/firestore";
 import styles from "src/styles/addcustomer.module.css";
 
 export default function AddCustomer() {
-  const [customers, setCustomers] = useState([]);
+  const route = useRouter();
   const [japanese, setJapanese] = useState(true);
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
-  const [birth, setBirth] = useState("");
   const [date, setDate] = useState(new Date().getDate());
   const [data, setData] = useState({
     japanese: japanese,
@@ -31,7 +32,8 @@ export default function AddCustomer() {
     passport_img: "",
   });
   const router = useRouter();
-  console.log("render");
+
+  // dataステートに値を保存
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
@@ -106,6 +108,15 @@ export default function AddCustomer() {
     }
   };
 
+  // 出身が日本か日本以外かを取得
+  const onSelectJapanese = (e) => {
+    console.log(e.target.value);
+    if (e.target.value) {
+      setData({ ...data, country: "日本" });
+    }
+    setData({ ...data, japanese: e.target.value });
+  };
+
   // 選択した性別を取得
   const onSelectGender = () => {
     const str = document.getElementById("gender").value;
@@ -127,8 +138,38 @@ export default function AddCustomer() {
   // 選択した画像ファイルを取得
   const onSelectImg = (e) => {
     const str = document.getElementById("passport_img").value;
-    console.log(str)
+    console.log(str);
     setData({ ...data, passport_img: str });
+  };
+
+  // 入力した顧客データをデータベースに保存
+  const onClickPush = async () => {
+    const docRef = await addDoc(collection(db, "customers"), {
+      data,
+    });
+
+    setData({
+      japanese: japanese,
+      name: "",
+      kana: "",
+      year: year,
+      month: month,
+      date: data,
+      age: 0,
+      gender: "",
+      prefecture: "",
+      zip: "",
+      address_1: "",
+      address_2: "",
+      tel: "",
+      email: "",
+      country: "",
+      passport_id: "",
+      passport_img: "",
+    });
+
+    console.log(data);
+    route.push("/customer");
   };
 
   useEffect(() => {
@@ -155,9 +196,9 @@ export default function AddCustomer() {
               name="japanese"
               id="日本"
               value={true}
-              onChange={() => {
+              onChange={(e) => {
                 setJapanese(true);
-                handleChange;
+                onSelectJapanese(e);
               }}
             />
             <label htmlFor="日本">日本</label>
@@ -167,9 +208,9 @@ export default function AddCustomer() {
               name="japanese"
               id="日本以外"
               value={false}
-              onChange={() => {
+              onChange={(e) => {
                 setJapanese(false);
-                handleChange;
+                onSelectJapanese(e);
               }}
             />
             <label htmlFor="日本以外">日本以外</label>
@@ -650,20 +691,12 @@ export default function AddCustomer() {
                 type="file"
                 name="passport_img"
                 onChange={onSelectImg}
-                id="passport_id"
+                id="passport_img"
               />
             </div>
           </div>
 
-          <button
-            className={styles.submitBtn}
-            onClick={() => {
-              if(japanese) {
-                setData({...data, country: "Japan"})
-              }
-              console.log(data)
-            }}
-          >
+          <button className={styles.submitBtn} onClick={onClickPush}>
             登録
           </button>
         </div>

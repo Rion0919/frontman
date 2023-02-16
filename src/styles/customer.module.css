@@ -43,7 +43,7 @@
   border-bottom: 1px solid black;
   background-color: white;
   padding-top: 30px;
-  padding-right: 316px;
+  padding-right: 300px;
 }
 
 .listHeader div:first-child {
@@ -75,6 +75,18 @@
   justify-content: space-between;
   align-items: center;
   list-style-type: none;
+}
+
+.customerId {
+  width: 160px;
+  overflow-x: scroll;
+  overflow-anchor: none;
+}
+
+.customerName {
+  text-align: center;
+  width: 120px;
+  overflow: hidden;
 }
 
 .customerList li button {
