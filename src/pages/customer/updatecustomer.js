@@ -1,25 +1,60 @@
 import Header from "components/Header";
 import { Layout } from "components/Layout";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import db from "../api/firebase";
+import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import styles from "src/styles/addcustomer.module.css";
 
 export default function AddCustomer() {
+  const route = useRouter();
+  const ref = useRef(route.query.customerId);
+  const [japanese, setJapanese] = useState(true);
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [date, setDate] = useState(new Date().getDate());
-  const [japanese, setJapanese] = useState(true);
-  const router = useRouter();
+  const [dataArry, setDataArry] = useState({
+    japanese: true,
+    name: "",
+    kana: "",
+    year: 0,
+    month: 0,
+    date: 0,
+    age: 0,
+    gender: "",
+    prefecture: "",
+    zip: "",
+    address_1: "",
+    address_2: "",
+    tel: "",
+    email: "",
+    country: "",
+    passport_id: "",
+    passport_img: "",
+  }); 
+
+  // dataステートに値を保存
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDataArry({ ...dataArry, [name]: value });
+    console.log(dataArry);
+  };
 
   // 選択した日付を取得
   const onSelectedYear = (e) => {
     setYear(e.target.value);
+    const str = document.getElementById("birthyear").value;
+    setDataArry({ ...dataArry, year: str });
   };
   const onSelectedMonth = (e) => {
     setMonth(e.target.value);
+    const str = document.getElementById("birthmonth").value;
+    setDataArry({ ...dataArry, month: str });
   };
   const onSelectedDate = (e) => {
     setDate(e.target.value);
+    const str = document.getElementById("birthdate").value;
+    setDataArry({ ...dataArry, date: str });
   };
 
   // selectタグの子要素（optionタグ）追加
@@ -73,10 +108,101 @@ export default function AddCustomer() {
     }
   };
 
+  // 出身が日本か日本以外かを取得
+  const onSelectJapanese = (e) => {
+    console.log(e.target.value);
+    if (e.target.value) {
+      setDataArry({ ...dataArry, country: "日本" });
+    }
+    setDataArry({ ...dataArry, japanese: e.target.value });
+  };
+
+  // 選択した性別を取得
+  const onSelectGender = () => {
+    const str = document.getElementById("gender").value;
+    setDataArry({ ...dataArry, gender: str });
+  };
+
+  // 選択した都道府県を取得
+  const onSelectPrefecture = () => {
+    const str = document.getElementById("prefecture").value;
+    setDataArry({ ...dataArry, prefecture: str });
+  };
+
+  // 選択した国籍を取得
+  const onSelectCountry = () => {
+    const str = document.getElementById("country").value;
+    setDataArry({ ...dataArry, country: str });
+  };
+
+  // 選択した画像ファイルを取得
+  const onSelectImg = (e) => {
+    const str = document.getElementById("passport_img").value;
+    console.log(str);
+    setDataArry({ ...dataArry, passport_img: str });
+  };
+
+  // 入力した顧客データをデータベースに保存
+  const onClickPush = async () => {
+    const docRef = doc(db, "customers", ref.current)
+    await updateDoc(docRef, {
+      japanese: dataArry.japanese,
+      name: dataArry.name,
+      kana: dataArry.kana,
+      year: dataArry.year,
+      month: dataArry.month,
+      date: dataArry.date,
+      age: dataArry.age,
+      gender: dataArry.gender,
+      prefecture: dataArry.prefecture,
+      zip: dataArry.zip,
+      address_1: dataArry.address_1,
+      address_2: dataArry.address_2,
+      tel: dataArry.tel,
+      email: dataArry.email,
+      country: dataArry.country,
+      passport_id: dataArry.passport_id,
+      passport_img: dataArry.passport_img,
+    })
+    route.push("/customer");
+  };
+
+  console.log(ref.current);
   useEffect(() => {
     createYear();
     createMonth();
     createDate();
+    const fetch = async () => {
+      // const docRef = doc(db, "customers", "vnQjU45FdtDkwlfCRl4P");
+      const docRef = await doc(db, "customers", ref.current);
+      const docSnap = await getDoc(docRef);
+      const data = docSnap.data()
+      if (docSnap.exists()) {
+        console.log(docSnap.data().data);
+        setDataArry({
+          japanese: data.japanese,
+          name: data.name,
+          kana: data.kana,
+          year: data.year,
+          month: data.month,
+          date: data.date,
+          age: data.age,
+          gender: data.gender,
+          prefecture: data.prefecture,
+          zip: data.zip,
+          address_1: data.address_1,
+          address_2: data.address_2,
+          tel: data.tel,
+          email: data.email,
+          country: data.country,
+          passport_id: data.passport_id,
+          passport_img: data.passport_img,
+        })
+      } else {
+        console.log("No document");
+      }
+    };
+    fetch();
   }, []);
 
   useEffect(() => {
@@ -85,7 +211,7 @@ export default function AddCustomer() {
 
   return (
     <Layout>
-      <Header user={router.query.loginId} />
+      <Header user={route.query.loginId} />
       <div className={styles.container}>
         <h1>顧客登録</h1>
         <div className={styles.formContainer}>
@@ -94,47 +220,87 @@ export default function AddCustomer() {
             <input
               className={styles.radioStyle}
               type="radio"
-              name="日本"
+              name="japanese"
               id="日本"
-              value="日本"
-              onClick={() => setJapanese(true)}
+              checked={dataArry.japanese}
+              value={true}
+              onChange={(e) => {
+                setJapanese(true);
+                onSelectJapanese(e);
+              }}
             />
             <label htmlFor="日本">日本</label>
             <input
               className={styles.radioStyle}
               type="radio"
-              name="日本"
+              name="japanese"
+              checked={!dataArry.japanese}
               id="日本以外"
-              value="日本以外"
-              onClick={() => setJapanese(false)}
+              value={false}
+              onChange={(e) => {
+                setJapanese(false);
+                onSelectJapanese(e);
+              }}
             />
             <label htmlFor="日本以外">日本以外</label>
           </div>
           <div className={styles.inputStyle}>
             <span>氏名：</span>
-            <input className={styles.nameStyle} type="text" />
+            <input
+              className={styles.nameStyle}
+              type="text"
+              name="name"
+              value={dataArry.name}
+              onChange={handleChange}
+            />
           </div>
           <div className={styles.inputStyle}>
             <span>フリガナ：</span>
-            <input className={styles.kanaStyle} type="text" />
+            <input
+              className={styles.kanaStyle}
+              type="text"
+              name="kana"
+              value={dataArry.kana}
+              onChange={handleChange}
+            />
           </div>
           <div className={styles.inputStyle}>
             <span>生年月日：</span>
-            <select id="birthyear" onChange={onSelectedYear}></select>
+            <select
+              id="birthyear"
+              value={dataArry.year}
+              onChange={onSelectedYear}
+            ></select>
             <select
               className={styles.birthStyle}
               id="birthmonth"
+              value={dataArry.month}
               onChange={onSelectedMonth}
             ></select>
-            <select id="birthdate" onChange={onSelectedDate}></select>
+            <select
+              id="birthdate"
+              value={dataArry.date}
+              onChange={onSelectedDate}
+            ></select>
           </div>
           <div className={styles.inputStyle}>
             <span>年齢：</span>
-            <input className={styles.ageStyle} type="number" />
+            <input
+              className={styles.ageStyle}
+              type="number"
+              name="age"
+              value={dataArry.age}
+              onChange={handleChange}
+            />
           </div>
           <div className={styles.inputStyle}>
             <span>性別：</span>
-            <select className={styles.genderStyle} id="gender">
+            <select
+              className={styles.genderStyle}
+              id="gender"
+              onChange={onSelectGender}
+              value={dataArry.gender}
+            >
               <option value=""></option>
               <option value="男性">男性</option>
               <option value="女性">女性</option>
@@ -143,7 +309,7 @@ export default function AddCustomer() {
           <div>----お住まいの地域----</div>
           <div className={styles.inputStyle}>
             <span>都道府県：</span>
-            <select id="prefecture">
+            <select id="prefecture" value={dataArry.prefecture} onChange={onSelectPrefecture}>
               <option value="">都道府県</option>
               <option value="北海道">北海道</option>
               <option value="青森県">青森県</option>
@@ -196,13 +362,22 @@ export default function AddCustomer() {
           </div>
           <div className={styles.inputStyle}>
             <span>郵便番号：</span>
-            <input type="text" placeholder="ハイフンを含む" />
+            <input
+              type="text"
+              placeholder="ハイフンを含む"
+              name="zip"
+              value={dataArry.zip}
+              onChange={handleChange}
+            />
           </div>
           <div className={styles.inputStyle}>
             <span>住所1：</span>
             <input
               className={styles.addressStyle}
               type="text"
+              name="address_1"
+              value={dataArry.address_1}
+              onChange={handleChange}
               placeholder="市区町村番地"
             />
           </div>
@@ -211,6 +386,9 @@ export default function AddCustomer() {
             <input
               className={styles.addressStyle}
               type="text"
+              name="address_2"
+              value={dataArry.address_2}
+              onChange={handleChange}
               placeholder="建物名、号室など"
             />
           </div>
@@ -219,6 +397,9 @@ export default function AddCustomer() {
             <input
               className={styles.telStyle}
               type="text"
+              name="tel"
+              value={dataArry.tel}
+              onChange={handleChange}
               placeholder="固定電話、携帯電話（ハイフンを含む）"
             />
           </div>
@@ -227,6 +408,9 @@ export default function AddCustomer() {
             <input
               className={styles.mailStyle}
               type="text"
+              name="email"
+              value={dataArry.email}
+              onChange={handleChange}
               placeholder="任意"
             />
           </div>
@@ -236,7 +420,12 @@ export default function AddCustomer() {
           >
             <div className={styles.inputStyle}>
               <span>国籍：</span>
-              <select className={styles.countryStyles} id="country">
+              <select
+                className={styles.countryStyles}
+                id="country"
+                value={dataArry.country}
+                onChange={onSelectCountry}
+              >
                 <option value="">Country...</option>
                 <option value="Afganistan">Afghanistan</option>
                 <option value="Albania">Albania</option>
@@ -520,18 +709,25 @@ export default function AddCustomer() {
             </div>
             <div className={styles.inputStyle}>
               <span>旅券番号：</span>
-              <input type="text" />
+              <input
+                type="text"
+                name="passport_id"
+                value={dataArry.passport_id}
+                onChange={handleChange}
+              />
             </div>
             <div className={styles.inputStyle}>
               <span>パスポート写真：</span>
-              <input type="file" />
+              <input
+                type="file"
+                name="passport_img"
+                onChange={onSelectImg}
+                id="passport_img"
+              />
             </div>
           </div>
 
-          <button
-            className={styles.submitBtn}
-            onClick={() => console.log(year, month, date)}
-          >
+          <button className={styles.submitBtn} onClick={onClickPush}>
             登録
           </button>
         </div>

@@ -11,13 +11,18 @@ export default function Customer() {
   const [customers, setCustomers] = useState([]);
   const dataAry = [];
   const ref = useRef(router.query.loginId);
-  // console.log(ref.current)
+
   const toAddCustomer = () => {
     router.push({ pathname: "/customer/addcustomer" }, "/customer/addcustomer");
   };
-  const toUpdateCustomer = () => {
+
+  const toUpdateCustomer = (e) => {
+    console.log(typeof e.target.value);
     router.push(
-      { pathname: "/customer/updatecustomer" },
+      {
+        pathname: "/customer/updatecustomer",
+        query: { customerId: e.target.value },
+      },
       "/customer/updatecustomer"
     );
   };
@@ -26,7 +31,8 @@ export default function Customer() {
     const fetch = async () => {
       await getDocs(collection(db, "customers")).then((res) => {
         res.forEach((docs) => {
-          const data = docs.data().data;
+          const data = docs.data();
+          console.log(data);
           dataAry.push({
             id: docs.id,
             japanese: data.japanese,
@@ -46,6 +52,8 @@ export default function Customer() {
             country: data.country,
             passport_id: data.passport_id,
             passport_img: data.passport_img,
+            created_at: data.created_at,
+            update_at: data.update_at,
           });
           setCustomers(dataAry);
         });
@@ -53,7 +61,6 @@ export default function Customer() {
     };
     fetch();
   }, []);
-  console.log(customers);
 
   return (
     <Layout>
@@ -64,7 +71,6 @@ export default function Customer() {
           <button className={styles.searchBtn}>検索</button>
         </div>
         <div className={styles.customerList}>
-          {/* <h2>顧客がいません</h2> */}
           <div className={styles.listHeader}>
             <div>顧客番号</div>
             <div>氏名</div>
@@ -72,16 +78,22 @@ export default function Customer() {
             <div>最近の宿泊日</div>
           </div>
           <ul>
-            {customers.map((customer) => (
-              <li key={customer.id}>
-                <div className={styles.customerId}>{customer.id}</div>
-                <div className={styles.customerName}>{customer.name}</div>
-                <div>{`${customer.year}/${customer.month}/${customer.date}`}</div>
-                <div>{`${customer.year}/${customer.month}/${customer.date}`}</div>
-                <button onClick={toUpdateCustomer}>更新</button>
-                <button>削除</button>
-              </li>
-            ))}
+            {customers.length !== 0 ? (
+              customers.map((customer) => (
+                <li key={customer.id}>
+                  <div className={styles.customerId}>{customer.id}</div>
+                  <div className={styles.customerName}>{customer.name}</div>
+                  <div>{`${customer.year}/${customer.month}/${customer.date}`}</div>
+                  <div>{`${customer.year}/${customer.month}/${customer.date}`}</div>
+                  <button onClick={toUpdateCustomer} value={customer.id}>
+                    更新
+                  </button>
+                  <button>削除</button>
+                </li>
+              ))
+            ) : (
+              <li>顧客がいません</li>
+            )}
           </ul>
         </div>
         <button className={styles.addCustomer} onClick={toAddCustomer}>

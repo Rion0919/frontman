@@ -3,7 +3,7 @@ import { Layout } from "components/Layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import db from "../api/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import styles from "src/styles/addcustomer.module.css";
 
 export default function AddCustomer() {
@@ -145,7 +145,25 @@ export default function AddCustomer() {
   // 入力した顧客データをデータベースに保存
   const onClickPush = async () => {
     const docRef = await addDoc(collection(db, "customers"), {
-      data,
+      japanese: data.japanese,
+      name: data.name,
+      kana: data.kana,
+      year: data.year,
+      month: data.month,
+      date: data.date,
+      age: data.age,
+      gender: data.gender,
+      prefecture: data.prefecture,
+      zip: data.zip,
+      address_1: data.address_1,
+      address_2: data.address_2,
+      tel: data.tel,
+      email: data.email,
+      country: data.country,
+      passport_id: data.passport_id,
+      passport_img: data.passport_img,
+      created_at: serverTimestamp(),
+      update_at: serverTimestamp()
     });
 
     setData({
