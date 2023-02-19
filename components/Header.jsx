@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import Head from "next/head";
 import styles from "src/styles/header.module.css";
 import Link from "next/link";
@@ -12,7 +12,6 @@ const Header = ({ title, userId }) => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if(user) {
-        console.log("current user:" + user.email)
         setLoginUser(user.email.substring(0, user.email.indexOf("@")))
       } else {
         console.log('login please')
@@ -46,4 +45,4 @@ const Header = ({ title, userId }) => {
   );
 };
 
-export default Header;
+export default memo(Header);

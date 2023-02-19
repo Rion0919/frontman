@@ -37,7 +37,6 @@ export default function AddCustomer() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
-    console.log(data);
   };
 
   // 選択した日付を取得
@@ -110,7 +109,6 @@ export default function AddCustomer() {
 
   // 出身が日本か日本以外かを取得
   const onSelectJapanese = (e) => {
-    console.log(e.target.value);
     if (e.target.value) {
       setData({ ...data, country: "日本" });
     }
@@ -138,7 +136,6 @@ export default function AddCustomer() {
   // 選択した画像ファイルを取得
   const onSelectImg = (e) => {
     const str = document.getElementById("passport_img").value;
-    console.log(str);
     setData({ ...data, passport_img: str });
   };
 
@@ -185,8 +182,6 @@ export default function AddCustomer() {
       passport_id: "",
       passport_img: "",
     });
-
-    console.log(data);
     route.push("/customer");
   };
 

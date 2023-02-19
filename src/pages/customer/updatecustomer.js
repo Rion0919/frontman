@@ -163,6 +163,7 @@ export default function AddCustomer() {
       country: dataArry.country,
       passport_id: dataArry.passport_id,
       passport_img: dataArry.passport_img,
+      update_at: serverTimestamp()
     })
     route.push("/customer");
   };
@@ -728,7 +729,7 @@ export default function AddCustomer() {
           </div>
 
           <button className={styles.submitBtn} onClick={onClickPush}>
-            登録
+            更新
           </button>
         </div>
       </div>
