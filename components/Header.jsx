@@ -6,9 +6,12 @@ import { auth } from "../src/pages/api/firebase"
 import { onAuthStateChanged, signOut } from "firebase/auth"
 import { useRouter } from "next/router";
 
-const Header = ({ title, userId }) => {
+const Header = ({ title, userId, back }) => {
   const [loginUser, setLoginUser] = useState(userId)
   const route = useRouter()
+  const toTop = () => {
+    route.push({pathname: "/top"})
+  }
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if(user) {
@@ -31,6 +34,7 @@ const Header = ({ title, userId }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/hotel.ico" />
       </Head>
+        {back && <span onClick={toTop} className={styles.backIcon}>←</span>}
       <div className={styles.header}>
         <h1>Frontman</h1>
         {title && <span>{title}</span>}

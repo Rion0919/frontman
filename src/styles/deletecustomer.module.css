@@ -13,3 +13,39 @@
     border-radius: 20px;
     background-color: white;
 }
+
+.dialogText {
+    position: relative;
+    top: 140px;
+    font-weight: 500;
+    width: 590px;
+    margin: 0 auto;
+    line-height: 20px;
+}
+
+.btnContainer {
+    width: 70%;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    top: 280px;
+}
+ .btnContainer button {
+    height: 75px;
+    width: 150px;
+    margin: 0 60px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;font-size: large;
+    box-shadow: 0 2px 3px rgb(100, 100, 100);
+}
+
+.cancelBtn {
+     background-color: #D9D9D9;
+ }
+
+ .deleteBtn {
+    background-color: #F14668;
+ }

@@ -7,9 +7,21 @@
   padding: 32px 0 32px 42px;
 }
 
+.backIcon {
+  position: absolute;
+  color: white;
+  display: inline-block;
+  font-size: xx-large;
+  font-weight: bolder;
+  top: 37px;
+  left: 20px;
+  cursor: pointer;
+}
+
 .header h1 {
   color: white;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin-left: 30px;
 }
 
 .userInfo {

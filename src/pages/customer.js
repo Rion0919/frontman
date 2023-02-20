@@ -4,14 +4,15 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import styles from "src/styles/customer.module.css";
 import db from "./api/firebase";
-import { collection, doc, getDocs, deleteDoc } from "firebase/firestore";
+import { collection, getDocs,  getDoc, doc } from "firebase/firestore";
 import DeleteCustomer from "components/DeleteCustomer";
+import dayjs from "dayjs";
 
 export default function Customer() {
   const router = useRouter();
   const [customers, setCustomers] = useState([]);
   const [deleteClick, setDeleteClick] = useState(false);
-  const [customerId, setCustomerId] = useState(null);
+  const [customerInfo, setCustomerInfo] = useState({id: null, name: ""});
   const [deleted, setDeleted] = useState(false);
   const ref = useRef(router.query.loginId);
   
@@ -28,12 +29,23 @@ export default function Customer() {
       },
       "/customer/updatecustomer"
       );
-    };
+  };
+
+  const dateFormetter = (miliseconds) => {
+    const time = new Date(miliseconds)
+    console.log(time);
+    const year = time.getFullYear()
+    const month = time.getMonth() + 1
+    const date = ("0" + time.getDate()).slice(-2)
+    return `${year}/${month}/${date}`
+  }
     
-    const deleteCustomer = (id) => {
+    const deleteCustomer = async (id) => {
       console.log("delete", id);
+      const customerRef = doc(db, "customers", id)
+      const snap = await getDoc(customerRef)
       setDeleteClick((prev) => !prev);
-      setCustomerId(id);
+      setCustomerInfo({id: id, name: snap.data().name});
     };
     
     useEffect(() => {
@@ -62,7 +74,7 @@ export default function Customer() {
           country: d.data().country,
           passport_id: d.data().passport_id,
           passport_img: d.data().passport_img,
-          created_at: d.data().created_at,
+          created_at: dayjs(d.data().created_at.toDate()).format("YYYY/MM/DD"),
           update_at: d.data().update_at,
         });
       });
@@ -72,40 +84,14 @@ export default function Customer() {
     };
     fetch();
   }, [deleted]);
-  
-  // const fetched = getDocs(collection(db, "customers"))
-  // fetched.forEach((d) => {
-  //   dataAry.push({
-  //     id: d.id,
-  //     japanese: d.data().japanese,
-  //     name: d.data().name,
-  //     kana: d.data().kana,
-  //     year: d.data().year,
-  //     month: d.data().month,
-  //     date: d.data().date,
-  //     age: d.data().age,
-  //     gender: d.data().gender,
-  //     prefecture: d.data().prefecture,
-  //     zip: d.data().zip,
-  //     address_1: d.data().address_1,
-  //     address_2: d.data().address_2,
-  //     tel: d.data().tel,
-  //     email: d.data().email,
-  //     country: d.data().country,
-  //     passport_id: d.data().passport_id,
-  //     passport_img: d.data().passport_img,
-  //     created_at: d.data().created_at,
-  //     update_at: d.data().update_at,
-  //   })
-  // })
 
   return (
     <Layout>
-      <Header user={ref.current} />
+      <Header user={ref.current} back />
       {deleteClick && (
         <DeleteCustomer
           setDeleteClick={setDeleteClick}
-          customerId={customerId}
+          customerInfo={customerInfo}
           setDeleted={setDeleted}
         />
       )}
@@ -128,7 +114,7 @@ export default function Customer() {
                 <li key={i}>
                   <div className={styles.customerId}>{customer.id}</div>
                   <div className={styles.customerName}>{customer.name}</div>
-                  <div>{`${customer.year}/${customer.month}/${customer.date}`}</div>
+                  <div>{customer.created_at}</div>
                   <div>{`${customer.year}/${customer.month}/${customer.date}`}</div>
                   <button onClick={toUpdateCustomer} value={customer.id}>
                     更新

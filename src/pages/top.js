@@ -12,7 +12,6 @@ export default function Top() {
     <Layout>
       <Header user={router.query.loginId} />
       <div className={styles.container}>
-        {/* <MenuButton label="顧客管理" href="/customer/customer" loginId={ref.current} as="/customer" /> */}
         <MenuButton label="顧客管理" href="/customer" as="/customer">{ref.current}</MenuButton>
         <MenuButton
           label="予約管理"
