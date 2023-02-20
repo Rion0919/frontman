@@ -21,7 +21,6 @@ export default function Customer() {
   };
   
   const toUpdateCustomer = (e) => {
-    console.log(typeof e.target.value);
     router.push(
       {
         pathname: "/customer/updatecustomer",

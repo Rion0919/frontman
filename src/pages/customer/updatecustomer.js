@@ -174,7 +174,6 @@ export default function AddCustomer() {
     createMonth();
     createDate();
     const fetch = async () => {
-      // const docRef = doc(db, "customers", "vnQjU45FdtDkwlfCRl4P");
       const docRef = await doc(db, "customers", ref.current);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data()
@@ -212,7 +211,7 @@ export default function AddCustomer() {
 
   return (
     <Layout>
-      <Header user={route.query.loginId} />
+      <Header user={route.query.loginId} back />
       <div className={styles.container}>
         <h1>顧客登録</h1>
         <div className={styles.formContainer}>

@@ -197,7 +197,7 @@ export default function AddCustomer() {
 
   return (
     <Layout>
-      <Header user={router.query.loginId} />
+      <Header user={router.query.loginId} back />
       <div className={styles.container}>
         <h1>顧客登録</h1>
         <div className={styles.formContainer}>

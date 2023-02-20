@@ -1,0 +1,60 @@
+.container {
+    width: 1200px;
+    height: 715px;
+    margin: 0 auto;
+}
+.reservationInfo {
+    width: 1200px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.infoWindow {
+    background-color: white;
+    width: 780px;
+    height: 70px;
+}
+
+.checkoutBtn {
+    width: 282px;
+    height: 50px;
+    border: none;
+    border-radius: 20px;
+    padding: 14px 42px;
+    background-color: #53A2FF;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    line-height: 25px;
+    box-shadow: 0 2px 1px rgb(100, 100, 100);
+    cursor: pointer;
+}
+
+.rooms {
+    margin: 14px auto 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
+}
+
+.room {
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    border: 1px solid #E0DFE2;
+    cursor: pointer;
+}
+
+.room:hover {
+    border: 1px solid #53A2FF;
+}
+
+.roomClicked {
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    cursor: pointer;
+    border: 1px solid #53A2FF;
+}

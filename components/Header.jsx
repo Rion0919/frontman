@@ -1,4 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
+import path from 'path'
 import Head from "next/head";
 import styles from "src/styles/header.module.css";
 import Link from "next/link";
@@ -10,6 +11,7 @@ const Header = ({ title, userId, back }) => {
   const [loginUser, setLoginUser] = useState(userId)
   const route = useRouter()
   const toTop = () => {
+    // route.push({pathname: `/${location.pathname.split('/').at(-2)}`})
     route.push({pathname: "/top"})
   }
   useEffect(() => {
