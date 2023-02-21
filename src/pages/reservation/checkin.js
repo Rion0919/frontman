@@ -8,6 +8,18 @@ import CustomerRef from "components/CustomerRef";
 import { doc, updateDoc } from "firebase/firestore";
 import db from "../api/firebase";
 
+//宿泊料金プログラム
+//・一泊6000円（大人1人、シングル）
+//・一泊10000円（大人一人、ツイン）
+//・大人一人追加で＋4000円（一泊ごと）、子供一人当たり＋2000円
+//・朝食あり：2000円
+//例）
+//2泊3日　大人2人　朝食あり、ツイン
+//(10000 + 4000) * 2 + 2000 = 30,000円
+//
+//1泊2日　大人2人　子供1人、朝食あり、ツイン
+//(10000 + 4000) * 1 + 2000 + 2000 = 18,000円
+
 export default function Checkin() {
   const route = useRouter();
   const [customerRef, setCustomerRef] = useState({ name: "", selected: false });
@@ -22,19 +34,29 @@ export default function Checkin() {
     checkout_date: "",
     checkout_hour: "",
     checkout_min: "",
+    stay_count: "",
     adult_num: "",
     child_num: "",
     room_type: "",
     breakfast: false,
     customer: "",
   });
+  const [price, setPrice] = useState(0);
+  const [stayCount, setStayCount] = useState('')
 
   // dataステートに値を保存
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
-    console.log(data);
   };
+
+  // 何泊するのか計算
+  const calcStay = (e) => {
+    const _name = e.target.name
+    let num = e.target.value
+    setData({...data, [_name]: num})
+    
+  }
 
   // 選択した部屋タイプを取得
   const onSelectRoomType = () => {
@@ -57,9 +79,22 @@ export default function Checkin() {
   // 予約を確定
   const onClickCheckIn = async (roomNum) => {
     const docRef = doc(db, "rooms", roomNum)
+    let month = 0
+    let date = 0
+    const _date = new Date()
+    const _lastDay = new Date(_date.getFullYear(), _date.getMonth() + 1, 0).getDate()
+    date = +data.checkin_date + (+data.stay_count);
+    month = new Date(_date.getFullYear(), _date.getMonth() + 1, 0).getMonth() + 1
+    console.log(month, date);
+    if(date > _lastDay){
+      date = (date - _lastDay) + 1
+      month = new Date(_date.getFullYear(), _date.getMonth() + 1, 0).getMonth() + 2
+      console.log(month, date);
+    }
     await updateDoc(docRef, {
       checkin: `${data.checkin_month}/${data.checkin_date} ${data.checkin_hour}:${data.checkin_min}`,
-      checkout: `${data.checkout_month}/${data.checkout_date} ${data.checkout_hour}:${data.checkout_min}`,
+      checkout: `${month}/${date}`,
+      stay_count: data.stay_count,
       adult_num: data.adult_num,
       child_num: data.child_num,
       room_type: data.room_type,
@@ -122,7 +157,7 @@ export default function Checkin() {
             />
             <label>分〜</label>
           </div>
-          <div className={styles.inputContainer}>
+          {/* <div className={styles.inputContainer}>
             <span>チェックアウト日時：</span>
             <input
               className={styles.checkoutStyle}
@@ -156,6 +191,17 @@ export default function Checkin() {
               onChange={handleChange}
             />
             <label>分</label>
+          </div> */}
+          <div className={styles.inputContainer}>
+            <span>泊数：</span>
+            <input
+              className={styles.checkoutStyle}
+              type="text"
+              name="stay_count"
+              value={data.stay_count}
+              onChange={handleChange}
+            />
+            <label>泊</label>
           </div>
           <div className={styles.inputContainer}>
             <span className={styles.numSpanStyle}>宿泊人数：</span>
@@ -233,7 +279,7 @@ export default function Checkin() {
           </div>
         </div>
         <div className={styles.price_checkInContainer}>
-          <div className={styles.price}>料金：24,000円</div>
+          <div className={styles.price}>{`料金：${price}円`}</div>
           <button
             onClick={() => onClickCheckIn(roomNum)}
             className={styles.checkinBtn}

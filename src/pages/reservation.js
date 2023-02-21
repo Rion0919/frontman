@@ -11,23 +11,36 @@ export default function Reservation() {
   const [rooms, setRooms] = useState([]);
   const [clicked, setClicked] = useState(false);
   const [clickedRoom, setClickedRoom] = useState(0);
+  const [btnText, setBtnText] = useState('チェックイン')
   const router = useRouter();
 
   const toCheckIn = (roomNum) => {
     router.push(
       {
         pathname: "./reservation/checkin",
-        query: {roomNum: roomNum},
+        query: { roomNum: roomNum },
       },
       "/reservation/checkin"
     );
   };
 
-  const clickRoom = (room) => {
-    setResInfo(`${room}号室`);
+  const clickRoom = (room, customer, checkin, checkout, roomType, stay) => {
+    // if(stay) {
+    //   setBtnText('チェックアウト')
+    // } else if(stay === undefined){
+    //   setBtnText('チェックアウト')
+    // }
+    setResInfo(
+      customer !== undefined &&
+        checkin !== undefined &&
+        checkout !== undefined &&
+        roomType !== undefined
+        ? `${room}号室 ${customer}様 ${checkin}~${checkout} 部屋タイプ：${roomType}`
+        : `${room}号室`
+    );
     setClickedRoom(room);
     setClicked((prev) => !prev);
-    localStorage.setItem('roomNum', room)
+    localStorage.setItem("roomNum", room);
   };
 
   useEffect(() => {
@@ -56,9 +69,22 @@ export default function Reservation() {
         </div>
         <div className={styles.rooms}>
           {rooms.map((r, i) => (
-            <div onClick={() => clickRoom(r.room)} className={r.stay ? styles.noEmpty : styles.room } key={i}>
+            <div
+              onClick={() =>
+                clickRoom(
+                  r.room,
+                  r.customer,
+                  r.checkin,
+                  r.checkout,
+                  r.room_type,
+                  r.stay
+                )
+              }
+              className={r.stay ? styles.noEmpty : styles.room}
+              key={i}
+            >
               {r.room}
-              {r.stay ? (<p>{`${r.customer}様`}</p>) : (<p>空き</p>)}
+              {r.stay ? <p>{`${r.customer}様`}</p> : <p>空き</p>}
             </div>
           ))}
         </div>

@@ -114,4 +114,5 @@
     font-weight: bold;
     padding: 23px 35px;
     box-shadow: 0 2px 2px rgb(100, 100, 100);
+    cursor: pointer;
 }
