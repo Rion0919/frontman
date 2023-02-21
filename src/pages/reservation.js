@@ -27,6 +27,7 @@ export default function Reservation() {
     setResInfo(`${room}号室`);
     setClickedRoom(room);
     setClicked((prev) => !prev);
+    localStorage.setItem('roomNum', room)
   };
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function Reservation() {
     const fetch = async () => {
       const roomRef = await getDocs(collection(db, "rooms"));
       roomRef.forEach((r) => {
-        dataAry.push(r.data().room);
+        dataAry.push(r.data());
       });
       setRooms(dataAry);
     };
@@ -55,8 +56,9 @@ export default function Reservation() {
         </div>
         <div className={styles.rooms}>
           {rooms.map((r, i) => (
-            <div onClick={() => clickRoom(r)} className={styles.room} key={i}>
-              {r}
+            <div onClick={() => clickRoom(r.room)} className={r.stay ? styles.noEmpty : styles.room } key={i}>
+              {r.room}
+              {r.stay ? (<p>{`${r.customer}様`}</p>) : (<p>空き</p>)}
             </div>
           ))}
         </div>

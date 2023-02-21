@@ -1,0 +1,117 @@
+.container {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.formContainer {
+    margin-top: 30px;
+}
+
+.inputContainer {
+    margin: 0 auto 20px auto;
+    width: 800px;
+}
+
+.radioInputContainer {
+    display: flex;
+    align-items: center;
+    margin: 30px auto 20px 200px;
+    width: 900px;
+    font-size: larger;
+}
+
+.radioInputContainer label {
+    margin-right: 20px;
+}
+
+.inputContainer span,
+.inputContainer label {
+    font-size: larger;
+}
+
+.checkinSpanStyle {
+    margin-right: 20px;
+}
+
+.inputContainer input {
+    height: 50px;
+    border: none;
+    font-size: 20px;
+}
+
+.checkinStyle, .checkoutStyle {
+    width: 80px;
+    margin: 0 20px;
+}
+
+.numSpanStyle {
+    margin-right: 115px;
+}
+
+.numStyle {
+    width: 90px;
+    margin: 0 10px
+}
+
+.roomTypeSpanStyle {
+    margin-right: 15px;
+}
+
+.roomTypeStyle {
+    font-size: larger;
+    border: none;
+    width: 265px;
+    height: 50px;
+}
+
+.breakfastSpanStyle {
+    margin-right: 140px;
+}
+
+.radioStyle {
+    height: 20px;
+    margin: 0 10px 0 20px;
+}
+
+.customerSpanStyle {
+    margin-right: 60px;
+}
+
+.customerRefBtn {
+    border: none;
+    background-color: #72B471;
+    color: white;
+    border-radius: 20px;
+    width: 175px;
+    height: 50px;
+    font-size: large;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.price_checkInContainer {
+    margin: 150px auto 0 auto;
+    width: 1100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.price {
+    display: inline-block;
+    font-weight: bolder;
+    font-size: x-large;
+    border-bottom: 1px solid black;
+    width: 370px;
+}
+
+.checkinBtn {
+    border: none;
+    border-radius: 20px;
+    color: white;
+    background-color: #53A2FF;
+    font-size: larger;
+    font-weight: bold;
+    padding: 23px 35px;
+    box-shadow: 0 2px 2px rgb(100, 100, 100);
+}
