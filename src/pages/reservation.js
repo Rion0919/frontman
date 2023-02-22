@@ -10,36 +10,49 @@ export default function Reservation() {
   const [resInfo, setResInfo] = useState("ここに予約情報が表示");
   const [rooms, setRooms] = useState([]);
   const [clicked, setClicked] = useState(false);
+  const [stayed, setStayed] = useState(false);
   const [clickedRoom, setClickedRoom] = useState(0);
-  const [btnText, setBtnText] = useState('チェックイン')
+  const [btnText, setBtnText] = useState("チェックイン");
   const router = useRouter();
 
-  const toCheckIn = (roomNum) => {
-    router.push(
-      {
-        pathname: "./reservation/checkin",
-        query: { roomNum: roomNum },
-      },
-      "/reservation/checkin"
-    );
+  const toCheck = (roomNum) => {
+    if (stayed) {
+      router.push(
+        {
+          pathname: "./reservation/checkout",
+          query: { roomNum: roomNum },
+        },
+        "/reservation/checkout"
+      );
+    } else {
+      router.push(
+        {
+          pathname: "./reservation/checkin",
+          query: { roomNum: roomNum },
+        },
+        "/reservation/checkin"
+      );
+    }
   };
 
   const clickRoom = (room, customer, checkin, checkout, roomType, stay) => {
-    // if(stay) {
-    //   setBtnText('チェックアウト')
-    // } else if(stay === undefined){
-    //   setBtnText('チェックアウト')
-    // }
     setResInfo(
-      customer !== undefined &&
-        checkin !== undefined &&
-        checkout !== undefined &&
-        roomType !== undefined
+      customer !== "" &&
+        checkin !== "" &&
+        checkout !== "" &&
+        roomType !== ""
         ? `${room}号室 ${customer}様 ${checkin}~${checkout} 部屋タイプ：${roomType}`
         : `${room}号室`
     );
     setClickedRoom(room);
     setClicked((prev) => !prev);
+    if (stay) {
+      setStayed(true);
+      console.log(stayed);
+    } else {
+      setStayed(false);
+      console.log(stayed);
+    }
     localStorage.setItem("roomNum", room);
   };
 
@@ -62,7 +75,7 @@ export default function Reservation() {
           <div className={styles.infoWindow}>{resInfo}</div>
           <button
             className={styles.checkoutBtn}
-            onClick={() => toCheckIn(clickedRoom)}
+            onClick={() => toCheck(clickedRoom)}
           >
             チェックイン/アウト
           </button>

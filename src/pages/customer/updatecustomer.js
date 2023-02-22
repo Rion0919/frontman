@@ -168,7 +168,6 @@ export default function AddCustomer() {
     route.push("/customer");
   };
 
-  console.log(ref.current);
   useEffect(() => {
     createYear();
     createMonth();

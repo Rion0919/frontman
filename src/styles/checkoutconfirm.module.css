@@ -1,0 +1,35 @@
+.container {
+    width: 1200px;
+    margin: 115px auto 0 auto;
+    text-align: center;
+}
+
+.thanks {
+    font-size: xx-large;
+    margin-bottom: 10px;
+}
+
+.stayInfoContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: x-large;
+}
+
+.stayInfoContainer span {
+    margin-right: 20px;
+}
+
+.confirmBtn {
+    margin-top: 70px;
+    background-color: #53A2FF;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 27px 103px;
+    width: 275px;
+    height: 96px;
+    font-size: xx-large;
+    font-weight: bolder;
+    box-shadow: 0 2px 2px rgb(100, 100, 100);
+}

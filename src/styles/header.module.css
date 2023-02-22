@@ -33,3 +33,9 @@
   text-decoration: none;
   margin-left: 30px;
 }
+
+.userName {
+  font-weight: bolder;
+  color: white;
+  font-size: larger;
+}

@@ -41,7 +41,7 @@ const Header = ({ title, userId, back }) => {
         <h1>Frontman</h1>
         {title && <span>{title}</span>}
         <div className={styles.userInfo}>
-          <span>{loginUser}</span>
+          <span className={styles.userName}>{loginUser}</span>
           <Link href="/" className={styles.logout} onClick={onClickSignOut}>
             ログアウト
           </Link>

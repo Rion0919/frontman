@@ -297,7 +297,5 @@ const RoomNumComponent = () => {
 
   const roomNum = localStorage.getItem("roomNum");
 
-  // component logic
-
   return <h1>{roomNum}</h1>;
 };
