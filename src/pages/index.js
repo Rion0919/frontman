@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import db, { auth } from "./api/firebase";
-import styles from "src/styles/home.module.css";
+import styles from "src/styles/Home.module.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getDoc, doc, setDoc } from "firebase/firestore";
 

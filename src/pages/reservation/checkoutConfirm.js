@@ -1,7 +1,7 @@
 import Header from "components/Header";
 import { Layout } from "components/Layout";
 import { useRouter } from "next/router";
-import styles from "../../styles/checkoutconfirm.module.css"
+import styles from "src/styles/checkoutconfirm.module.css"
 import { doc, updateDoc } from "firebase/firestore";
 import db from "../api/firebase";
 

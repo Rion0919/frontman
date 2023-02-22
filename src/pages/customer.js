@@ -2,7 +2,7 @@ import Header from "components/Header";
 import { Layout } from "components/Layout";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import styles from "./../styles/customer.module.css";
+import styles from "src/styles/customer.module.css";
 import db from "./api/firebase";
 import { collection, getDocs,  getDoc, doc } from "firebase/firestore";
 import DeleteCustomer from "components/DeleteCustomer";

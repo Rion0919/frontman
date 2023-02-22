@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import { Layout } from "components/Layout";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
-import styles from "../../styles/checkout.module.css";
+import styles from "src/styles/checkout.module.css";
 import CustomerRef from "components/CustomerRef";
 import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import db from "../api/firebase";
