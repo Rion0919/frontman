@@ -1,4 +1,4 @@
-import styles from "../styles/home.module.css";
+import styles from "src/styles/home.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
