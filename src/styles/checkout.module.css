@@ -12,7 +12,7 @@
     width: 800px;
 }
 
-.radioInputContainer {
+.customerContainer {
     display: flex;
     align-items: center;
     margin: 30px auto 20px 200px;
@@ -20,8 +20,9 @@
     font-size: larger;
 }
 
-.radioInputContainer label {
+.customerContainer label {
     margin-right: 20px;
+    margin-left: 87px;
 }
 
 .inputContainer span,
@@ -68,16 +69,20 @@
     margin-right: 140px;
 }
 
-.radioStyle {
+.breakfast {
+    margin-left: 46px;
+}
+
+/* .radioStyle {
     height: 20px;
     margin: 0 10px 0 20px;
-}
+} */
 
 .customerSpanStyle {
     margin-right: 60px;
 }
 
-.customerRefBtn {
+/* .customerRefBtn {
     border: none;
     background-color: #72B471;
     color: white;
@@ -87,9 +92,9 @@
     font-size: large;
     font-weight: bold;
     cursor: pointer;
-}
+} */
 
-.price_checkInContainer {
+.price_checkOutContainer {
     margin: 150px auto 0 auto;
     width: 1100px;
     display: flex;
@@ -105,7 +110,7 @@
     width: 370px;
 }
 
-.checkinBtn {
+.checkoutBtn {
     border: none;
     border-radius: 20px;
     color: white;

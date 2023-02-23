@@ -7,12 +7,11 @@ import styles from "src/styles/reservation.module.css";
 import db from "./api/firebase";
 
 export default function Reservation() {
-  const [resInfo, setResInfo] = useState("ここに予約情報が表示");
+  const [resInfo, setResInfo] = useState("");
   const [rooms, setRooms] = useState([]);
   const [clicked, setClicked] = useState(false);
   const [stayed, setStayed] = useState(false);
   const [clickedRoom, setClickedRoom] = useState(0);
-  const [btnText, setBtnText] = useState("チェックイン");
   const router = useRouter();
 
   const toCheck = (roomNum) => {

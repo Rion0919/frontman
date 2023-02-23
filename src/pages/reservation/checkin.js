@@ -11,14 +11,17 @@ import db from "../api/firebase";
 //宿泊料金プログラム
 //・一泊6000円（大人1人、シングル）
 //・一泊10000円（大人一人、ツイン）
-//・大人一人追加で＋4000円（一泊ごと）、子供一人当たり＋2000円
+//・大人一人追加で＋4000円、子供一人当たり＋2000円
 //・朝食あり：2000円
 //例）
 //2泊3日　大人2人　朝食あり、ツイン
 //(10000 + 4000) * 2 + 2000 = 30,000円
 //
+//5泊6日　大人一人、シングル、朝食あり
+//(6000 + 0) * 5 + 2000 = 32000円
+//
 //1泊2日　大人2人　子供1人、朝食あり、ツイン
-//(10000 + 4000) * 1 + 2000 + 2000 = 18,000円
+//(10000 * 1) + (4000 * 1) + 2000 + 2000 = 18000円
 
 export default function Checkin() {
   const route = useRouter();
@@ -30,10 +33,10 @@ export default function Checkin() {
     checkin_date: "",
     checkin_hour: "",
     checkin_min: "",
-    checkout_month: "",
-    checkout_date: "",
-    checkout_hour: "",
-    checkout_min: "",
+    // checkout_month: "",
+    // checkout_date: "",
+    // checkout_hour: "",
+    // checkout_min: "",
     stay_count: "",
     adult_num: "",
     child_num: "",
@@ -42,7 +45,6 @@ export default function Checkin() {
     customer: "",
   });
   const [price, setPrice] = useState(0);
-  const [stayCount, setStayCount] = useState('')
 
   // dataステートに値を保存
   const handleChange = (e) => {
@@ -50,12 +52,32 @@ export default function Checkin() {
     setData({ ...data, [name]: value });
   };
 
-  // 何泊するのか計算
-  const calcStay = (e) => {
-    const _name = e.target.name
-    let num = e.target.value
-    setData({...data, [_name]: num})
-    
+  const onClickCalc = () => {
+    setPrice(0)
+    if(data.checkin_month==="" ||
+    data.checkin_date==="" ||
+    data.checkin_hour==="" ||
+    data.checkin_min==="" ||
+    data.stay_count==="" ||
+    data.adult_num==="" ||
+    data.child_num==="" ||
+    data.room_type==="" ||
+    data.breakfast===null ||
+    data.customer==="") {
+      console.log("error");
+      return
+    }
+    if(data.room_type==="シングル") {
+      setPrice(prev => prev + ((6000 * +data.stay_count) + (4000 * (data.adult_num - 1))))
+    } else if(data.room_type==="ツイン") {
+      setPrice(prev => prev + ((10000 * +data.stay_count) + (4000 * (data.adult_num - 1))))
+    }
+    if(+data.child_num>0){
+      setPrice(prev => prev+=2000)
+    }
+    if(data.breakfast){
+      setPrice(prev => prev+=2000)
+    }
   }
 
   // 選択した部屋タイプを取得
@@ -72,9 +94,14 @@ export default function Checkin() {
   // 顧客情報参照画面表示
   const onClickCustomerRef = () => {
     document.getElementById("noRegister").checked = false;
-    document.getElementById("register").checked = false;
     setCustomerRef({ name: "", selected: true });
   };
+
+  // 顧客登録せずにチェックインする時の処理
+  const onCheckedNoRegister = () => {
+    setCustomerRef({...customerRef, name: ""})
+    setData({...data, customer: "ゲスト"})
+  }
 
   // 予約を確定
   const onClickCheckIn = async (roomNum) => {
@@ -85,11 +112,23 @@ export default function Checkin() {
     const _lastDay = new Date(_date.getFullYear(), _date.getMonth() + 1, 0).getDate()
     date = +data.checkin_date + (+data.stay_count);
     month = new Date(_date.getFullYear(), _date.getMonth() + 1, 0).getMonth() + 1
-    console.log(month, date);
-    if(date > _lastDay){
+    if(date >= _lastDay){
       date = (date - _lastDay) + 1
       month = new Date(_date.getFullYear(), _date.getMonth() + 1, 0).getMonth() + 2
       console.log(month, date);
+    }
+    if(data.checkin_month==="" ||
+    data.checkin_date==="" ||
+    data.checkin_hour==="" ||
+    data.checkin_min==="" ||
+    data.stay_count==="" ||
+    data.adult_num==="" ||
+    data.child_num==="" ||
+    data.room_type==="" ||
+    data.breakfast===null ||
+    data.customer==="") {
+      console.log("error");
+      return
     }
     await updateDoc(docRef, {
       checkin: `${data.checkin_month}/${data.checkin_date} ${data.checkin_hour}:${data.checkin_min}`,
@@ -100,7 +139,8 @@ export default function Checkin() {
       room_type: data.room_type,
       breakfast: data.breakfast,
       customer: data.customer,
-      stay: stay
+      stay: stay,
+      price: price
     });
     route.push("/reservation");
   };
@@ -157,41 +197,6 @@ export default function Checkin() {
             />
             <label>分〜</label>
           </div>
-          {/* <div className={styles.inputContainer}>
-            <span>チェックアウト日時：</span>
-            <input
-              className={styles.checkoutStyle}
-              type="text"
-              name="checkout_month"
-              value={data.checkout_month}
-              onChange={handleChange}
-            />
-            <label>月</label>
-            <input
-              className={styles.checkoutStyle}
-              type="text"
-              name="checkout_date"
-              value={data.checkout_date}
-              onChange={handleChange}
-            />
-            <label>日</label>
-            <input
-              className={styles.checkoutStyle}
-              type="text"
-              name="checkout_hour"
-              value={data.checkout_hour}
-              onChange={handleChange}
-            />
-            <label>時</label>
-            <input
-              className={styles.checkoutStyle}
-              type="text"
-              name="checkout_min"
-              value={data.checkout_min}
-              onChange={handleChange}
-            />
-            <label>分</label>
-          </div> */}
           <div className={styles.inputContainer}>
             <span>泊数：</span>
             <input
@@ -272,14 +277,15 @@ export default function Checkin() {
                 ? `：${customerRef.name}様`
                 : "：登録済み"}
             </label>
-            <input name="customer" id="noRegister" type="radio" />
+            <input name="customer" id="noRegister" type="checkBox" onChange={onCheckedNoRegister} />
             <label htmlFor="noRegister">：登録しない</label>
-            <input name="customer" id="register" type="radio" />
-            <label htmlFor="register">：チェックイン時に登録</label>
           </div>
         </div>
         <div className={styles.price_checkInContainer}>
-          <div className={styles.price}>{`料金：${price}円`}</div>
+          <div className={styles.price}>
+            {`料金：${price}円`}
+            </div>
+            <button onClick={() => onClickCalc()} className={styles.calcBtn} >金額計算</button>
           <button
             onClick={() => onClickCheckIn(roomNum)}
             className={styles.checkinBtn}
