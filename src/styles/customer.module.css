@@ -54,6 +54,10 @@
   margin-right: 20px;
 }
 
+.listHeader div:last-child {
+  margin-right: 24px;
+}
+
 .customerList {
   position: relative;
   height: 386px;

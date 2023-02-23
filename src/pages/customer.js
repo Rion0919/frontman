@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import styles from "src/styles/customer.module.css";
 import db from "./api/firebase";
-import { collection, getDocs,  getDoc, doc } from "firebase/firestore";
+import { collection, getDocs,  getDoc, doc, query, where } from "firebase/firestore";
 import DeleteCustomer from "components/DeleteCustomer";
 import dayjs from "dayjs";
 
@@ -14,6 +14,7 @@ export default function Customer() {
   const [deleteClick, setDeleteClick] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({id: null, name: ""});
   const [deleted, setDeleted] = useState(false);
+  const [words, setWords] = useState('')
   const ref = useRef(router.query.loginId);
   
   const toAddCustomer = () => {
@@ -39,19 +40,81 @@ export default function Customer() {
     return `${year}/${month}/${date}`
   }
     
-    const deleteCustomer = async (id) => {
-      console.log("delete", id);
-      const customerRef = doc(db, "customers", id)
-      const snap = await getDoc(customerRef)
-      setDeleteClick((prev) => !prev);
-      setCustomerInfo({id: id, name: snap.data().name});
-    };
+  const deleteCustomer = async (id) => {
+    console.log("delete", id);
+    const customerRef = doc(db, "customers", id)
+    const snap = await getDoc(customerRef)
+    setDeleteClick((prev) => !prev);
+    setCustomerInfo({id: id, name: snap.data().name});
+  };
+  
+  // 顧客名から検索
+  const onClickSearch = async (name) => {
+    let filtered = []
+    if(name!=='') {
+      const customersRef = collection(db, "customers")
+      const q = query(customersRef, where("name", "==", name))
+      const querySnap = await getDocs(q)
+      querySnap.forEach((d) => {
+        filtered.push({
+          id: d.id,
+          japanese: d.data().japanese,
+          name: d.data().name,
+          kana: d.data().kana,
+          year: d.data().year,
+          month: d.data().month,
+          date: d.data().date,
+          age: d.data().age,
+          gender: d.data().gender,
+          prefecture: d.data().prefecture,
+          zip: d.data().zip,
+          address_1: d.data().address_1,
+          address_2: d.data().address_2,
+          tel: d.data().tel,
+          email: d.data().email,
+          country: d.data().country,
+          passport_id: d.data().passport_id,
+          passport_img: d.data().passport_img,
+          created_at: dayjs(d.data().created_at.toDate()).format("YYYY/MM/DD"),
+          update_at: d.data().update_at,
+        })
+        setCustomers(filtered)
+      })
+    } else {
+      const fetched = await getDocs(collection(db, "customers"));
+      fetched.forEach((d) => {
+        filtered.push({
+          id: d.id,
+          japanese: d.data().japanese,
+          name: d.data().name,
+          kana: d.data().kana,
+          year: d.data().year,
+          month: d.data().month,
+          date: d.data().date,
+          age: d.data().age,
+          gender: d.data().gender,
+          prefecture: d.data().prefecture,
+          zip: d.data().zip,
+          address_1: d.data().address_1,
+          address_2: d.data().address_2,
+          tel: d.data().tel,
+          email: d.data().email,
+          country: d.data().country,
+          passport_id: d.data().passport_id,
+          passport_img: d.data().passport_img,
+          created_at: dayjs(d.data().created_at.toDate()).format("YYYY/MM/DD"),
+          update_at: d.data().update_at,
+        });
+      });
+      setCustomers(filtered)
+    }
+  }
     
-    useEffect(() => {
-      console.log("customer page render");
-      setDeleted(false)
-      const dataAry = [];
-      const fetch = async () => {
+  useEffect(() => {
+    console.log("customer page render");
+    setDeleted(false)
+    const dataAry = [];
+    const fetch = async () => {
       const fetched = await getDocs(collection(db, "customers"));
       fetched.forEach((d) => {
         dataAry.push({
@@ -96,15 +159,15 @@ export default function Customer() {
       )}
       <div className={styles.container}>
         <div className={styles.searchForm}>
-          <input type="text" placeholder="顧客検索" />
-          <button className={styles.searchBtn}>検索</button>
+          <input type="text" placeholder="顧客検索" value={words} onChange={(e) => setWords(e.target.value)} />
+          <button onClick={() => onClickSearch(words)} className={styles.searchBtn}>検索</button>
         </div>
         <div className={styles.customerList}>
           <div className={styles.listHeader}>
             <div>顧客番号</div>
             <div>氏名</div>
             <div>登録日</div>
-            <div>最近の宿泊日</div>
+            <div>生年月日</div>
           </div>
           <ul>
             {customers.length !== 0 ? (
