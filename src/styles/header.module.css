@@ -50,3 +50,15 @@
   color: white;
   font-size: larger;
 }
+
+.rootStyle {
+  display: inline-block;
+  text-align: center;
+  border-radius: 20px;
+  margin-right: 10px;
+  width: 70px;
+  height: 25px;
+  color: white;
+  font-weight: 500;
+  background-color: rgb(219, 154, 34);
+}
