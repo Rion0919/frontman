@@ -99,10 +99,12 @@ export default function AddUser() {
     }
   };
 
+  // 一般ユーザーか管理者ユーザーかを取得
   const onSelectPermission = (val) => {
     setData({ ...data, permission: val });
   };
 
+  // ユーザーを新規登録＆データベースに保存
   const onClickAddUser = async () => {
     console.log(error);
     if (
