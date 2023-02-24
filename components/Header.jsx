@@ -1,8 +1,6 @@
 import React, { memo, useEffect, useState } from "react";
-import path from 'path'
 import Head from "next/head";
 import styles from "src/styles/header.module.css";
-import Link from "next/link";
 import { auth } from "../src/pages/api/firebase"
 import { onAuthStateChanged, signOut } from "firebase/auth"
 import { useRouter } from "next/router";
@@ -39,7 +37,7 @@ const Header = ({ title, userId, back }) => {
         {back && <span onClick={toTop} className={styles.backIcon}>←</span>}
       <div className={styles.header}>
         <h1>Frontman</h1>
-        {title && <span>{title}</span>}
+        {title && <span className={styles.headerTitle}>{title}</span>}
         <div className={styles.userInfo}>
           <span className={styles.userName}>{loginUser}</span>
           <button className={styles.logout} onClick={onClickSignOut}>ログアウト</button>

@@ -1,14 +1,18 @@
 import Header from "components/Header";
 import { Layout } from "components/Layout";
+import { addDoc, collection } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "src/styles/adduser.module.css";
+import db, { auth } from "../api/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function AddUser() {
   const router = useRouter();
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [date, setDate] = useState(new Date().getDate());
+  const [error, setError] = useState(false);
   const [data, setData] = useState({
     name: "",
     kana: "",
@@ -95,6 +99,44 @@ export default function AddUser() {
     }
   };
 
+  const onSelectPermission = (val) => {
+    setData({ ...data, permission: val });
+  };
+
+  const onClickAddUser = async () => {
+    console.log(error);
+    if (
+      data.name === "" ||
+      data.kana === "" ||
+      data.email === "" ||
+      data.password === "" ||
+      data.month === "" ||
+      data.date === "" ||
+      data.year === "" ||
+      data.permission === ""
+    ) {
+      console.log("error");
+      return;
+    }
+    try {
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      await addDoc(collection(db, "users"), {
+        email: data.email,
+        password: data.password,
+        name: data.name,
+        kana: data.kana,
+        birth: `${data.year}/${data.month}/${data.date}`,
+        permission: data.permission,
+        userId: data.email.substring(0, data.email.indexOf("@")),
+      });
+      router.push("/user");
+    } catch (e) {
+      console.log("--Register error--");
+      setError(true);
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     createYear();
     createMonth();
@@ -106,12 +148,19 @@ export default function AddUser() {
   }, [year, month]);
   return (
     <Layout>
-      <Header user={router.query.loginId} back />
+      <Header user={router.query.loginId} back title="ユーザー追加" />
       <div className={styles.container}>
+        {error && (
+          <div className={styles.errorMsg}>
+            <p>error</p>
+            <button>X</button>
+          </div>
+        )}
         <div className={styles.formContainer}>
-          <div className={styles.inputContainer}>
+          <div className={styles.inputStyle}>
             <span>氏名：</span>
             <input
+              className={styles.nameStyle}
               type="text"
               name="name"
               value={data.name}
@@ -131,25 +180,30 @@ export default function AddUser() {
           <div className={styles.inputStyle}>
             <span>生年月日：</span>
             <select
+              className={styles.selectStyle}
               id="birthyear"
               value={year}
               onChange={onSelectedYear}
             ></select>
+            <label className={styles.birthLabelStyle}>年</label>
             <select
               className={styles.birthStyle}
               id="birthmonth"
               value={month}
               onChange={onSelectedMonth}
             ></select>
+            <label className={styles.birthLabelStyle}>月</label>
             <select
               id="birthdate"
               value={date}
               onChange={onSelectedDate}
             ></select>
+            <label className={styles.birthLabelStyle}>日</label>
           </div>
           <div className={styles.inputStyle}>
             <span>メールアドレス：</span>
             <input
+              className={styles.emailStyle}
               type="email"
               name="email"
               value={data.email}
@@ -159,6 +213,7 @@ export default function AddUser() {
           <div className={styles.inputStyle}>
             <span>パスワード：</span>
             <input
+              className={styles.passwordStyle}
               type="text"
               name="password"
               value={data.password}
@@ -166,13 +221,29 @@ export default function AddUser() {
             />
           </div>
           <div className={styles.inputStyle}>
-            <span>権利：</span>
-            <input type="radio" id="common" name="permission" value="一般" />
-            <label htmlFor="common">：一般</label>
-            <input type="radio" id="root" name="permission" value="管理者" />
+            <span className={styles.permissionSpanStyle}>権利：</span>
+            <input
+              type="radio"
+              id="common"
+              name="permission"
+              value="一般"
+              onChange={(e) => onSelectPermission(e.target.value)}
+            />
+            <label htmlFor="common" className={styles.permissionLabelStyle}>
+              ：一般
+            </label>
+            <input
+              type="radio"
+              id="root"
+              name="permission"
+              value="管理者"
+              onChange={(e) => onSelectPermission(e.target.value)}
+            />
             <label htmlFor="root">：管理者</label>
           </div>
-          <button>登録</button>
+          <button onClick={onClickAddUser} className={styles.submitBtn}>
+            登録
+          </button>
         </div>
       </div>
     </Layout>
