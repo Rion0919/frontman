@@ -18,7 +18,7 @@ export default function Top() {
           href="/reservation"
           as="reservation"
         >{ref.current}</MenuButton>
-        <MenuButton label="部屋管理" href="/room" as="/room" >{ref.current}</MenuButton>
+        <MenuButton label="宿泊履歴" href="/room" as="/history" >{ref.current}</MenuButton>
         <MenuButton label="ユーザー管理" href="/user" as="/user" >{ref.current}</MenuButton>
       </div>
     </Layout>

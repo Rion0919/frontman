@@ -126,7 +126,8 @@ export default function Checkin() {
     data.child_num==="" ||
     data.room_type==="" ||
     data.breakfast===null ||
-    data.customer==="") {
+    data.customer==="" ||
+    price === 0) {
       console.log("error");
       return
     }

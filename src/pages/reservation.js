@@ -12,6 +12,7 @@ export default function Reservation() {
   const [clicked, setClicked] = useState(false);
   const [stayed, setStayed] = useState(false);
   const [clickedRoom, setClickedRoom] = useState(0);
+  const [price, setPrice] = useState(0)
   const router = useRouter();
 
   const toCheck = (roomNum) => {
@@ -34,7 +35,7 @@ export default function Reservation() {
     }
   };
 
-  const clickRoom = (room, customer, checkin, checkout, roomType, stay) => {
+  const clickRoom = (room, customer, checkin, checkout, roomType, stay, price) => {
     setResInfo(
       customer !== "" &&
         checkin !== "" &&
@@ -44,6 +45,7 @@ export default function Reservation() {
         : `${room}号室`
     );
     setClickedRoom(room);
+    setPrice(price)
     setClicked((prev) => !prev);
     if (stay) {
       setStayed(true);
@@ -71,7 +73,9 @@ export default function Reservation() {
       <Header user={router.query.loginId} back />
       <div className={styles.container}>
         <div className={styles.reservationInfo}>
-          <div className={styles.infoWindow}>{resInfo}</div>
+          <div className={styles.infoWindow}>
+            {resInfo}
+            </div>
           <button
             className={styles.checkoutBtn}
             onClick={() => toCheck(clickedRoom)}
@@ -89,7 +93,8 @@ export default function Reservation() {
                   r.checkin,
                   r.checkout,
                   r.room_type,
-                  r.stay
+                  r.stay,
+                  r.price
                 )
               }
               className={r.stay ? styles.noEmpty : styles.room}

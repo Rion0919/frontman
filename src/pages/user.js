@@ -15,6 +15,15 @@ export default function User() {
   const [deleted, setDeleted] = useState(false);
   const [words, setWords] = useState('')
 
+  const toAddUser = () => {
+    router.push(
+      {
+        pathname: "/user/adduser"
+      },
+      "/user/adduser"
+      )
+  }
+
   useEffect(() => {
     setDeleted(false)
     const dataAry = []
@@ -46,7 +55,7 @@ export default function User() {
   
   return (
     <Layout>
-      <Header user={router.query.loginId} />
+      <Header user={router.query.loginId} back />
       <div className={styles.container}>
         <div className={styles.searchForm}>
           <input type="text" placeholder="ユーザー検索" value={words} onChange={(e) => setWords(e.target.value)} />
@@ -82,7 +91,7 @@ export default function User() {
             )}
           </ul>
         </div>
-        <button className={styles.addCustomer}>
+        <button onClick={toAddUser} className={styles.addCustomer}>
           顧客登録
         </button>
       </div>

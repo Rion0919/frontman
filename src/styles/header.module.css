@@ -29,9 +29,14 @@
 }
 
 .logout {
-  color: red;
-  text-decoration: none;
+  border: none;
+  border-radius: 20px;
+  background-color: rgb(255, 103, 103);
+  color: white;
+  font-weight: 800;
   margin-left: 30px;
+  width: 120px;
+  height: 40px;
 }
 
 .userName {

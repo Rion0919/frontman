@@ -57,18 +57,6 @@ export default function Home() {
           }}
         />
       </form>
-      <div className={styles.forgotPass}>
-        <Link
-          href={{
-            pathname: "/top",
-            query: { loginId: loginId, password: password },
-          }}
-          as="/top"
-          legacyBehavior
-        >
-          <a className={styles.link}>パスワードを忘れた場合はこちら</a>
-        </Link>
-      </div>
       <div className={styles.loginBtn}>
         <button onClick={loginHandler}>ログイン</button>
       </div>

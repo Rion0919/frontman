@@ -11,7 +11,6 @@ const Header = ({ title, userId, back }) => {
   const [loginUser, setLoginUser] = useState(userId)
   const route = useRouter()
   const toTop = () => {
-    // route.push({pathname: `/${location.pathname.split('/').at(-2)}`})
     route.push({pathname: "/top"})
   }
   useEffect(() => {
@@ -26,7 +25,8 @@ const Header = ({ title, userId, back }) => {
   })
   const onClickSignOut = async () => {
     await signOut(auth)
-    await console.log("sign out")
+    console.log("sign out")
+    route.push("/")
   }
   return (
     <div>
@@ -42,9 +42,7 @@ const Header = ({ title, userId, back }) => {
         {title && <span>{title}</span>}
         <div className={styles.userInfo}>
           <span className={styles.userName}>{loginUser}</span>
-          <Link href="/" className={styles.logout} onClick={onClickSignOut}>
-            ログアウト
-          </Link>
+          <button className={styles.logout} onClick={onClickSignOut}>ログアウト</button>
         </div>
       </div>
     </div>
