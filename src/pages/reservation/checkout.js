@@ -1,8 +1,7 @@
 import Header from "components/Header";
-import dynamic from "next/dynamic";
 import { Layout } from "components/Layout";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "src/styles/checkout.module.css";
 import CustomerRef from "components/CustomerRef";
 import { addDoc, collection, doc, getDoc } from "firebase/firestore";

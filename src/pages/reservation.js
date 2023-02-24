@@ -9,10 +9,8 @@ import db from "./api/firebase";
 export default function Reservation() {
   const [resInfo, setResInfo] = useState("");
   const [rooms, setRooms] = useState([]);
-  const [clicked, setClicked] = useState(false);
   const [stayed, setStayed] = useState(false);
   const [clickedRoom, setClickedRoom] = useState(0);
-  const [price, setPrice] = useState(0)
   const router = useRouter();
 
   const toCheck = (roomNum) => {
@@ -45,8 +43,6 @@ export default function Reservation() {
         : `${room}号室`
     );
     setClickedRoom(room);
-    setPrice(price)
-    setClicked((prev) => !prev);
     if (stay) {
       setStayed(true);
       console.log(stayed);

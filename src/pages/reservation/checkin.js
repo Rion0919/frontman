@@ -195,7 +195,7 @@ export default function Checkin() {
             <label>分〜</label>
           </div>
           <div className={styles.inputContainer}>
-            <span>泊数：</span>
+            <span className={styles.stayCountSpan}>泊数：</span>
             <input
               className={styles.checkoutStyle}
               type="text"

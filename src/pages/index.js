@@ -1,9 +1,9 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { auth } from "./api/firebase";
+import db, { auth } from "./api/firebase";
 import styles from "src/styles/Home.module.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { collection, getDoc, query, where } from "firebase/firestore";
 
 export default function Home() {
   const [loginId, setLoginId] = useState("");
@@ -13,11 +13,8 @@ export default function Home() {
   const loginHandler = async () => {
     try {
       const result = await signInWithEmailAndPassword(auth, loginId, password);
-      console.log(`login successed ${loginId}/${password}`);
-      const user = result.user;
-      console.log(user);
       route.push(
-        { pathname: "/top", query: { loginId: loginId, password: password } },
+        { pathname: "/top", query: { loginId: loginId, email: result.user.email} },
         "/top"
       );
     } catch (err) {

@@ -99,6 +99,11 @@ export default function AddUser() {
     }
   };
 
+  // エラーメッセージを非表示
+  const onClickHiddenError = () => {
+    setError(false);
+  };
+
   // 一般ユーザーか管理者ユーザーかを取得
   const onSelectPermission = (val) => {
     setData({ ...data, permission: val });
@@ -153,9 +158,13 @@ export default function AddUser() {
       <Header user={router.query.loginId} back title="ユーザー追加" />
       <div className={styles.container}>
         {error && (
-          <div className={styles.errorMsg}>
-            <p>error</p>
-            <button>X</button>
+          <div className={styles.errorContainer}>
+            <p className={styles.errorMsg}>
+              すでに登録済みのメールアドレスです
+            </p>
+            <button className={styles.errorBtn} onClick={onClickHiddenError}>
+              X
+            </button>
           </div>
         )}
         <div className={styles.formContainer}>

@@ -7,7 +7,7 @@ export default function History() {
   const router = useRouter();
   return (
     <Layout>
-      <Header user={router.query.loginId} />
+      <Header user={router.query.loginId} back />
       <div>hi, this is history page</div>
     </Layout>
   );

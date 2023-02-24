@@ -17,10 +17,12 @@ export default function Customer() {
   const [words, setWords] = useState('')
   const ref = useRef(router.query.loginId);
   
+  // 顧客登録ページに遷移
   const toAddCustomer = () => {
     router.push({ pathname: "/customer/addcustomer" }, "/customer/addcustomer");
   };
   
+  // 顧客更新
   const toUpdateCustomer = (e) => {
     router.push(
       {
@@ -30,16 +32,8 @@ export default function Customer() {
       "/customer/updatecustomer"
       );
   };
-
-  const dateFormetter = (miliseconds) => {
-    const time = new Date(miliseconds)
-    console.log(time);
-    const year = time.getFullYear()
-    const month = time.getMonth() + 1
-    const date = ("0" + time.getDate()).slice(-2)
-    return `${year}/${month}/${date}`
-  }
     
+  // 顧客削除
   const deleteCustomer = async (id) => {
     console.log("delete", id);
     const customerRef = doc(db, "customers", id)
