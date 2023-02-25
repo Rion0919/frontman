@@ -8,6 +8,7 @@ import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
 export default function Home() {
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false)
   const route = useRouter();
   const ref = useRef([])
 
@@ -27,11 +28,23 @@ export default function Home() {
       );
     } catch (err) {
       console.log("--Login Error--");
+      setError(true)
       console.log(err);
     }
   };
+
+  const clickClose = () => {
+    setError(false)
+  }
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={() => {
+      if(error) clickClose()
+    }}>
+      {error && (
+      <div className={styles.errorContainer}>
+        <span className={styles.errorMsg}>ユーザー用メールアドレス、もしくはパスワードが間違っています。</span>
+      </div>
+      )}
       <div className={styles.title}>
         <span>フロント業務管理ツール</span>
         <h1>Frontman</h1>

@@ -22,7 +22,7 @@ export default function Customer() {
     router.push({ pathname: "/customer/addcustomer" }, "/customer/addcustomer");
   };
   
-  // 顧客更新
+  // 顧客情報更新ページに遷移
   const toUpdateCustomer = (e) => {
     router.push(
       {
@@ -33,7 +33,7 @@ export default function Customer() {
       );
   };
     
-  // 顧客削除
+  // 顧客削除ダイアログ表示
   const deleteCustomer = async (id) => {
     console.log("delete", id);
     const customerRef = doc(db, "customers", id)

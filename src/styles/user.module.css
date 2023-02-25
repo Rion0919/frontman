@@ -41,30 +41,35 @@
     border-bottom: 1px solid black;
     background-color: white;
     padding-top: 30px;
-    padding-right: 300px;
+    display: flex;
   }
 
   .listHeader div {
-    display: inline;
+    display: inline-block;
+    text-align: center;
   }
   
   .listHeader div:first-child {
-    margin: 0 25px;
+    width: 160px;
+    margin-left: 20px;
   }
   
   .listHeader div:nth-child(2) {
-    margin-left: 100px;
+    width: 160px;
+    margin-left: 20px;
   }
-
+  
   .listHeader div:nth-child(3) {
-    margin-left: 103px;
+    width: 160px;
+    margin-left: 20px;
   }
   
-  .listHeader div:last-child {
-    margin-left: 58px;
+  .listHeader div:nth-child(4) {
+    width: 160px;
+    margin-left: 30px;
   }
   
-  .customerList {
+  .userList {
     position: relative;
     height: 386px;
     margin-top: 19px;
@@ -75,7 +80,7 @@
     overflow: scroll;
   }
   
-  .customerList li {
+  .userList li {
     width: 1000px;
     margin: 0 auto;
     padding: 15px;
@@ -85,21 +90,35 @@
     justify-content: space-between;
     align-items: center;
     list-style-type: none;
+    text-align: center;
   }
   
-  .customerId {
+  .userId {
     width: 160px;
     overflow-x: scroll;
     overflow-anchor: none;
   }
   
-  .customerName {
+  .userName {
     text-align: center;
-    width: 120px;
-    overflow: hidden;
+    width: 160px;
+    overflow-x: scroll;
+    overflow-anchor: none;
+  }
+
+  .userId {
+    width: 160px;
+    overflow-x: scroll;
+    overflow-anchor: none;
+  }
+
+  .userPermission {
+    width: 160px;
+    overflow-x: scroll;
+    overflow-anchor: none;
   }
   
-  .customerList li button {
+  .userList li button {
     cursor: pointer;
     width: 100px;
     height: 45px;
@@ -112,11 +131,11 @@
     background-color: #53a2ff;
   }
   
-  .customerList li button:last-child {
+  .userList li button:last-child {
     background-color: #ff8888;
   }
   
-  .addCustomer {
+  .addUser {
     cursor: pointer;
     position: relative;
     top: 79px;

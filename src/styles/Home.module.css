@@ -63,3 +63,17 @@
   padding: 27px 45px;
   box-shadow: 0px 4px #00000042;
 }
+
+.errorContainer {
+  position: absolute;
+  top: 90px;
+  width: 100%;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+}
+
+.errorMsg {
+  color: red;
+  font-weight: 700;
+}
