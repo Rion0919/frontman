@@ -2,7 +2,7 @@ import Header from "components/Header";
 import { Layout } from "components/Layout";
 import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "src/styles/adduser.module.css";
 import db, { auth } from "../api/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -81,7 +81,7 @@ export default function UpdateUser() {
       selector.appendChild(op);
     }
   };
-  const createDate = () => {
+  const createDate = useCallback(() => {
     const selector = document.getElementById("birthdate");
     while (selector.hasChildNodes()) {
       selector.removeChild(selector.firstChild);
@@ -97,7 +97,7 @@ export default function UpdateUser() {
       op.text = i;
       selector.appendChild(op);
     }
-  };
+  }, [year, month]);
 
   // エラーメッセージを非表示
   const onClickHiddenError = () => {
@@ -171,14 +171,15 @@ export default function UpdateUser() {
       }
     };
     fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     createDate();
-  }, [year, month]);
+  }, [year, month, createDate]);
   return (
     <Layout>
-      <Header user={router.query.loginId} back title="ユーザー追加" />
+      <Header user={router.query.loginId} back title="ユーザー更新" />
       <div className={styles.container}>
         {error && (
           <div className={styles.errorContainer}>

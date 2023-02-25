@@ -95,7 +95,7 @@ export default function User() {
   }, [deleted])
   return (
     <Layout>
-      <Header user={router.query.loginId} back />
+      <Header user={router.query.loginId} back  title="ユーザー管理"/>
       {deleteClick && (
         <DeleteUser
           setDeleteClick={setDeleteClick}

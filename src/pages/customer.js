@@ -105,7 +105,6 @@ export default function Customer() {
   }
     
   useEffect(() => {
-    console.log("customer page render");
     setDeleted(false)
     const dataAry = [];
     const fetch = async () => {
@@ -139,11 +138,12 @@ export default function Customer() {
       }
     };
     fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleted]);
 
   return (
     <Layout>
-      <Header user={ref.current} back />
+      <Header user={ref.current} back title="顧客管理" />
       {deleteClick && (
         <DeleteCustomer
           setDeleteClick={setDeleteClick}

@@ -1,7 +1,7 @@
 import Header from "components/Header";
 import { Layout } from "components/Layout";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import db from "../api/firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import styles from "src/styles/addcustomer.module.css";
@@ -89,7 +89,7 @@ export default function AddCustomer() {
       selector.appendChild(op);
     }
   };
-  const createDate = () => {
+  const createDate = useCallback(() => {
     const selector = document.getElementById("birthdate");
     while (selector.hasChildNodes()) {
       selector.removeChild(selector.firstChild);
@@ -105,7 +105,7 @@ export default function AddCustomer() {
       op.text = i;
       selector.appendChild(op);
     }
-  };
+  }, [month, year]);
 
   // 出身が日本か日本以外かを取得
   const onSelectJapanese = (e) => {
@@ -189,15 +189,15 @@ export default function AddCustomer() {
     createYear();
     createMonth();
     createDate();
-  }, []);
+  }, [createDate]);
 
   useEffect(() => {
     createDate();
-  }, [year, month]);
+  }, [year, month, createDate]);
 
   return (
     <Layout>
-      <Header user={router.query.loginId} back />
+      <Header user={router.query.loginId} back title="顧客登録" />
       <div className={styles.container}>
         <h1>顧客登録</h1>
         <div className={styles.formContainer}>

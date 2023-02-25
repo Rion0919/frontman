@@ -35,6 +35,7 @@ export default function Checkout() {
       room_type: data.room_type,
       breakfast: data.breakfast,
       customer: data.customer,
+      price: data.price
     });
     route.push(
       {
@@ -70,11 +71,11 @@ export default function Checkout() {
       });
     };
     fetch();
-  }, []);
+  }, [route.query.roomNum]);
 
   return (
     <Layout>
-      <Header user={route.query.loginId} back />
+      <Header user={route.query.loginId} back title="チェックアウト確認" />
       {customerRef.selected && (
         <CustomerRef
           setCustomerRef={setCustomerRef}

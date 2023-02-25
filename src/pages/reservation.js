@@ -66,7 +66,7 @@ export default function Reservation() {
   }, []);
   return (
     <Layout>
-      <Header user={router.query.loginId} back />
+      <Header user={router.query.loginId} back title="予約一覧" />
       <div className={styles.container}>
         <div className={styles.reservationInfo}>
           <div className={styles.infoWindow}>

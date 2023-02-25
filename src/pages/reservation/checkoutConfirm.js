@@ -30,7 +30,7 @@ export default function CheckoutConfirm() {
     }
     return (
         <Layout>
-            <Header userId={route.query.loginId} back />
+            <Header userId={route.query.loginId} back title="チェックアウト完了" />
             <div className={styles.container}>
                 <p className={styles.thanks}>チェックインが完了しました。<br/>またのお越しをお待ちしております。</p>
                 <div className={styles.stayInfoContainer}>

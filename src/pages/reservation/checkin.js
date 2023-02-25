@@ -148,7 +148,7 @@ export default function Checkin() {
 
   return (
     <Layout>
-      <Header user={route.query.loginId} back />
+      <Header user={route.query.loginId} back  title="チェックイン"/>
       {customerRef.selected && (
         <CustomerRef
           setCustomerRef={setCustomerRef}

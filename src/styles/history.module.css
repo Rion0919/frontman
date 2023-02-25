@@ -1,0 +1,152 @@
+.container {
+  margin: 30px auto;
+  height: 100vh;
+  width: 1300px;
+}
+
+.searchForm input {
+  position: relative;
+  top: -3px;
+  height: 45px;
+  width: 345px;
+  border: none;
+  border-radius: 20px;
+  padding: 11px 0 11px 22px;
+}
+
+.searchBtn {
+  cursor: pointer;
+  padding: 7px 40px;
+  background-color: #72b471;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  height: 45px;
+  font-size: larger;
+  margin-left: 26px;
+}
+
+.noHistory {
+  margin-top: 19px;
+}
+
+.listHeader {
+  display: flex;
+  position: sticky;
+  width: 1000px;
+  top: 0px;
+  margin: 0 auto;
+  overflow: hidden;
+  font-size: x-large;
+  border-bottom: 1px solid black;
+  background-color: white;
+  padding-top: 30px;
+  padding-right: 100px;
+}
+
+.listHeader div {
+  text-align: center;
+}
+
+.listHeader div:first-child {
+  width: 130px;
+  margin-left: 30px;
+}
+
+.listHeader div:nth-child(2) {
+  width: 200px;
+  margin-left: 50px;
+}
+
+.listHeader div:nth-child(3) {
+  width: 200px;
+  margin-left: 20px;
+}
+
+.listHeader div:last-child {
+  width: 160px;
+  margin-left: 35px;
+}
+
+.historyList {
+  position: relative;
+  height: 700px;
+  margin-top: 19px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 4px 4px 4px #00000042;
+  padding: 0 41px 34px 41px;
+  overflow: scroll;
+}
+
+.historyList li {
+  width: 1000px;
+  margin: 0 auto;
+  padding: 15px;
+  font-size: larger;
+  display: flex;
+  border-bottom: 1px solid #c5c5c5;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
+}
+
+.historyName {
+  width: 160px;
+  overflow-x: scroll;
+  text-align: center;
+  overflow-anchor: none;
+}
+
+.historyCheckin {
+  width: 160px;
+  overflow-x: scroll;
+  text-align: center;
+}
+
+.historyCheckout {
+  width: 160px;
+  overflow-x: scroll;
+  text-align: center;
+}
+
+.historyRoomType {
+  width: 160px;
+  overflow-x: scroll;
+  text-align: center;
+}
+
+.historyList li button {
+  cursor: pointer;
+  width: 100px;
+  height: 45px;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-size: large;
+  line-height: 25px;
+  background-color: #53a2ff;
+}
+
+.historyList li button:last-child {
+  background-color: #ff8888;
+}
+
+.addHistory {
+  cursor: pointer;
+  position: relative;
+  top: 79px;
+  right: -1073px;
+  background-color: #53a2ff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: x-large;
+  padding: 23px 34px;
+  width: 228px;
+  height: 80px;
+  box-shadow: 0 4px 4px #00000042;
+}
