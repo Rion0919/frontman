@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import styles from "src/styles/history.module.css";
 import db from "./api/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 
 export default function History() {
   const router = useRouter();
@@ -41,6 +41,7 @@ export default function History() {
         setHistories(filtered)
       })
     } else {
+      // const fetched = await getDocs(collection(db, "roomhistory"), orderBy("customer", "desc"));
       const fetched = await getDocs(collection(db, "roomhistory"));
       fetched.forEach((d) => {
         filtered.push({

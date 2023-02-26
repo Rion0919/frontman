@@ -126,27 +126,7 @@
   border-radius: 20px;
   color: white;
   font-size: large;
+  font-weight: bold;
   line-height: 25px;
   background-color: #53a2ff;
-}
-
-.historyList li button:last-child {
-  background-color: #ff8888;
-}
-
-.addHistory {
-  cursor: pointer;
-  position: relative;
-  top: 79px;
-  right: -1073px;
-  background-color: #53a2ff;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: x-large;
-  padding: 23px 34px;
-  width: 228px;
-  height: 80px;
-  box-shadow: 0 4px 4px #00000042;
 }

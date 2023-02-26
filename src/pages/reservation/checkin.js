@@ -49,32 +49,39 @@ export default function Checkin() {
   };
 
   const onClickCalc = () => {
-    setPrice(0)
-    if(data.checkin_month==="" ||
-    data.checkin_date==="" ||
-    data.checkin_hour==="" ||
-    data.checkin_min==="" ||
-    data.stay_count==="" ||
-    data.adult_num==="" ||
-    data.child_num==="" ||
-    data.room_type==="" ||
-    data.breakfast===null ||
-    data.customer==="") {
+    setPrice(0);
+    if (
+      data.checkin_month === "" ||
+      data.checkin_date === "" ||
+      data.checkin_hour === "" ||
+      data.checkin_min === "" ||
+      data.stay_count === "" ||
+      data.adult_num === "" ||
+      data.child_num === "" ||
+      data.room_type === "" ||
+      data.breakfast === null ||
+      data.customer === ""
+    ) {
       console.log("error");
-      return
+      return;
     }
-    if(data.room_type==="シングル") {
-      setPrice(prev => prev + ((6000 * +data.stay_count) + (4000 * (data.adult_num - 1))))
-    } else if(data.room_type==="ツイン") {
-      setPrice(prev => prev + ((10000 * +data.stay_count) + (4000 * (data.adult_num - 1))))
+    if (data.room_type === "シングル") {
+      setPrice(
+        (prev) => prev + (6000 * +data.stay_count + 4000 * (data.adult_num - 1))
+      );
+    } else if (data.room_type === "ツイン") {
+      setPrice(
+        (prev) =>
+          prev + (10000 * +data.stay_count + 4000 * (data.adult_num - 1))
+      );
     }
-    if(+data.child_num>0){
-      setPrice(prev => prev+=2000)
+    if (+data.child_num > 0) {
+      setPrice((prev) => (prev += 2000));
     }
-    if(data.breakfast){
-      setPrice(prev => prev+=2000)
+    if (data.breakfast) {
+      setPrice((prev) => (prev += 2000));
     }
-  }
+  };
 
   // 選択した部屋タイプを取得
   const onSelectRoomType = () => {
@@ -95,37 +102,45 @@ export default function Checkin() {
 
   // 顧客登録せずにチェックインする時の処理
   const onCheckedNoRegister = () => {
-    setCustomerRef({...customerRef, name: ""})
-    setData({...data, customer: "ゲスト"})
-  }
+    setCustomerRef({ ...customerRef, name: "" });
+    setData({ ...data, customer: "ゲスト" });
+  };
 
   // 予約を確定
   const onClickCheckIn = async (roomNum) => {
-    const docRef = doc(db, "rooms", roomNum)
-    let month = 0
-    let date = 0
-    const _date = new Date()
-    const _lastDay = new Date(_date.getFullYear(), _date.getMonth() + 1, 0).getDate()
-    date = +data.checkin_date + (+data.stay_count);
-    month = new Date(_date.getFullYear(), _date.getMonth() + 1, 0).getMonth() + 1
-    if(date >= _lastDay){
-      date = (date - _lastDay) + 1
-      month = new Date(_date.getFullYear(), _date.getMonth() + 1, 0).getMonth() + 2
+    const docRef = doc(db, "rooms", roomNum);
+    let month = 0;
+    let date = 0;
+    const _date = new Date();
+    const _lastDay = new Date(
+      _date.getFullYear(),
+      _date.getMonth() + 1,
+      0
+    ).getDate();
+    date = +data.checkin_date + +data.stay_count;
+    month =
+      new Date(_date.getFullYear(), _date.getMonth() + 1, 0).getMonth() + 1;
+    if (date >= _lastDay) {
+      date = date - _lastDay + 1;
+      month =
+        new Date(_date.getFullYear(), _date.getMonth() + 1, 0).getMonth() + 2;
       console.log(month, date);
     }
-    if(data.checkin_month==="" ||
-    data.checkin_date==="" ||
-    data.checkin_hour==="" ||
-    data.checkin_min==="" ||
-    data.stay_count==="" ||
-    data.adult_num==="" ||
-    data.child_num==="" ||
-    data.room_type==="" ||
-    data.breakfast===null ||
-    data.customer==="" ||
-    price === 0) {
+    if (
+      data.checkin_month === "" ||
+      data.checkin_date === "" ||
+      data.checkin_hour === "" ||
+      data.checkin_min === "" ||
+      data.stay_count === "" ||
+      data.adult_num === "" ||
+      data.child_num === "" ||
+      data.room_type === "" ||
+      data.breakfast === null ||
+      data.customer === "" ||
+      price === 0
+    ) {
       console.log("error");
-      return
+      return;
     }
     await updateDoc(docRef, {
       checkin: `${data.checkin_month}/${data.checkin_date} ${data.checkin_hour}:${data.checkin_min}`,
@@ -137,8 +152,13 @@ export default function Checkin() {
       breakfast: data.breakfast,
       customer: data.customer,
       stay: stay,
-      price: price
+      price: price,
     });
+    route.push("/reservation");
+  };
+
+  // 予約一覧ページ戻る
+  const onClickBack = () => {
     route.push("/reservation");
   };
 
@@ -148,7 +168,7 @@ export default function Checkin() {
 
   return (
     <Layout>
-      <Header user={route.query.loginId} back  title="チェックイン"/>
+      <Header user={route.query.loginId} back title="チェックイン" />
       {customerRef.selected && (
         <CustomerRef
           setCustomerRef={setCustomerRef}
@@ -274,15 +294,23 @@ export default function Checkin() {
                 ? `：${customerRef.name}様`
                 : "：登録済み"}
             </label>
-            <input name="customer" id="noRegister" type="checkBox" onChange={onCheckedNoRegister} />
+            <input
+              name="customer"
+              id="noRegister"
+              type="checkBox"
+              onChange={onCheckedNoRegister}
+            />
             <label htmlFor="noRegister">：登録しない</label>
           </div>
         </div>
         <div className={styles.price_checkInContainer}>
-          <div className={styles.price}>
-            {`料金：${price}円`}
-            </div>
-            <button onClick={() => onClickCalc()} className={styles.calcBtn} >金額計算</button>
+          <div className={styles.price}>{`料金：${price}円`}</div>
+          <button onClick={() => onClickCalc()} className={styles.calcBtn}>
+            金額計算
+          </button>
+          <button className={styles.backBtn} onClick={onClickBack}>
+            戻る
+          </button>
           <button
             onClick={() => onClickCheckIn(roomNum)}
             className={styles.checkinBtn}

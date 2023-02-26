@@ -22,7 +22,13 @@ export default function HistoryConfirm() {
     adult_num: "",
     child_num: "",
     stay_count: "",
+    price: 0
   });
+
+  const onClickBack = () => {
+    route.push("/history");
+  };
+
   useEffect(() => {
     const fetch = async () => {
       const docRef = doc(db, "roomhistory", route.query.historyId);
@@ -41,6 +47,7 @@ export default function HistoryConfirm() {
         adult_num: list.adult_num,
         child_num: list.child_num,
         stay_count: list.stay_count,
+        price: list.price
       });
     };
     fetch();
@@ -49,7 +56,7 @@ export default function HistoryConfirm() {
     <Layout>
       <Header back userId={route.query.userId} title="宿泊履歴詳細" />
       <div className={styles.container}>
-        <h1>{data.id}</h1>
+        {/* <h1>{data.id}</h1> */}
         <div className={styles.dataContainer}>
           <span>宿泊者：</span>
           <p>{`${data.customer}様`}</p>
@@ -82,6 +89,15 @@ export default function HistoryConfirm() {
           <span>朝食：</span>
           <p>{data.breakfast ? "あり" : "なし"}</p>
         </div>
+        {data.price!==undefined && (
+          <div className={styles.dataContainer}>
+            <span>料金：</span>
+            <p>{`${data.price}円`}</p>
+          </div>
+        )}
+        <button onClick={onClickBack} className={styles.backBtn}>
+          戻る
+        </button>
       </div>
     </Layout>
   );

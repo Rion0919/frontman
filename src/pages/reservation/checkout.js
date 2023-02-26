@@ -10,7 +10,6 @@ import db from "../api/firebase";
 export default function Checkout() {
   const route = useRouter();
   const [customerRef, setCustomerRef] = useState({ name: "", selected: false });
-  const [stay, setStay] = useState(true);
   const [roomNum, setRoomNum] = useState("");
   const [data, setData] = useState({
     checkin: "",
@@ -35,7 +34,7 @@ export default function Checkout() {
       room_type: data.room_type,
       breakfast: data.breakfast,
       customer: data.customer,
-      price: data.price
+      price: data.price,
     });
     route.push(
       {
@@ -49,6 +48,11 @@ export default function Checkout() {
       },
       "/reservation/checkoutconfirm"
     );
+  };
+
+  // 予約一覧ページ戻る
+  const onClickBack = () => {
+    route.push("/reservation");
   };
 
   useEffect(() => {
@@ -129,6 +133,10 @@ export default function Checkout() {
         </div>
         <div className={styles.price_checkOutContainer}>
           <div className={styles.price}>{`料金：${data.price}円`}</div>
+          <button className={styles.backBtn} onClick={onClickBack}>
+            戻る
+          </button>
+
           <button
             onClick={() => onClickCheckOut(roomNum)}
             className={styles.checkoutBtn}
