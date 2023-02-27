@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import db from "../api/firebase";
 import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
-import styles from "src/styles/addcustomer.module.css";
+import styles from "src/styles/updatecustomer.module.css";
 
 export default function AddCustomer() {
   const route = useRouter();
@@ -31,13 +31,16 @@ export default function AddCustomer() {
     country: "",
     passport_id: "",
     passport_img: "",
-  }); 
+  });
+
+  const onClickBack = () => {
+    route.push("/customer");
+  };
 
   // dataステートに値を保存
   const handleChange = (e) => {
     const { name, value } = e.target;
     setDataArry({ ...dataArry, [name]: value });
-    console.log(dataArry);
   };
 
   // 選択した日付を取得
@@ -110,7 +113,6 @@ export default function AddCustomer() {
 
   // 出身が日本か日本以外かを取得
   const onSelectJapanese = (e) => {
-    console.log(e.target.value);
     if (e.target.value) {
       setDataArry({ ...dataArry, country: "日本" });
     }
@@ -138,13 +140,12 @@ export default function AddCustomer() {
   // 選択した画像ファイルを取得
   const onSelectImg = (e) => {
     const str = document.getElementById("passport_img").value;
-    console.log(str);
     setDataArry({ ...dataArry, passport_img: str });
   };
 
   // 入力した顧客データをデータベースに保存
   const onClickPush = async () => {
-    const docRef = doc(db, "customers", ref.current)
+    const docRef = doc(db, "customers", ref.current);
     await updateDoc(docRef, {
       japanese: dataArry.japanese,
       name: dataArry.name,
@@ -163,8 +164,8 @@ export default function AddCustomer() {
       country: dataArry.country,
       passport_id: dataArry.passport_id,
       passport_img: dataArry.passport_img,
-      update_at: serverTimestamp()
-    })
+      update_at: serverTimestamp(),
+    });
     route.push("/customer");
   };
 
@@ -175,9 +176,8 @@ export default function AddCustomer() {
     const fetch = async () => {
       const docRef = await doc(db, "customers", ref.current);
       const docSnap = await getDoc(docRef);
-      const data = docSnap.data()
+      const data = docSnap.data();
       if (docSnap.exists()) {
-        console.log(docSnap.data().data);
         setDataArry({
           japanese: data.japanese,
           name: data.name,
@@ -196,9 +196,7 @@ export default function AddCustomer() {
           country: data.country,
           passport_id: data.passport_id,
           passport_img: data.passport_img,
-        })
-      } else {
-        console.log("No document");
+        });
       }
     };
     fetch();
@@ -309,7 +307,11 @@ export default function AddCustomer() {
           <div>----お住まいの地域----</div>
           <div className={styles.inputStyle}>
             <span>都道府県：</span>
-            <select id="prefecture" value={dataArry.prefecture} onChange={onSelectPrefecture}>
+            <select
+              id="prefecture"
+              value={dataArry.prefecture}
+              onChange={onSelectPrefecture}
+            >
               <option value="">都道府県</option>
               <option value="北海道">北海道</option>
               <option value="青森県">青森県</option>
@@ -729,6 +731,10 @@ export default function AddCustomer() {
 
           <button className={styles.submitBtn} onClick={onClickPush}>
             更新
+          </button>
+
+          <button className={styles.backBtn} onClick={onClickBack}>
+            戻る
           </button>
         </div>
       </div>

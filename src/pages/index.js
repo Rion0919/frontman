@@ -27,9 +27,7 @@ export default function Home() {
         "/top"
       );
     } catch (err) {
-      console.log("--Login Error--");
       setError(true)
-      console.log(err);
     }
   };
 

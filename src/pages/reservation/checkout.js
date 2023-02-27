@@ -61,7 +61,6 @@ export default function Checkout() {
       const docRef = await doc(db, "rooms", route.query.roomNum);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
-      console.log(data.adult_num);
       setData({
         checkin: data.checkin,
         checkout: data.checkout,

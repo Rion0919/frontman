@@ -38,7 +38,6 @@ export default function User() {
 
   // ユーザー削除ダイアログ表示
   const deleteUser = async (id) => {
-    console.log("delete", id);
     const userRef = doc(db, "users", id)
     const snap = await getDoc(userRef)
     setDeleteClick((prev) => !prev);

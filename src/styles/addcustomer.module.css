@@ -88,7 +88,7 @@
 .submitBtn {
     position: relative;
     top: -100px;
-    left: 600px;
+    left: 800px;
     background-color: #53A2FF;
     color: white;
     font-weight: bolder;
@@ -97,4 +97,22 @@
     width: 175px;
     height: 50px;
     font-size: x-large;
+    cursor: pointer;
+    box-shadow: 0 2px 2px rgb(100, 100, 100);
+}
+
+.backBtn {
+    position: relative;
+    top: -100px;
+    left: 400px;
+    background-color: lightgray;
+    color: gray;
+    font-weight: bolder;
+    border: none;
+    border-radius: 20px;
+    width: 175px;
+    height: 50px;
+    font-size: x-large;
+    cursor: pointer;
+    box-shadow: 0 2px 2px rgb(100, 100, 100);
 }

@@ -25,6 +25,10 @@ export default function AddUser() {
     userId: "",
   });
 
+  const onClickBack = () => {
+    router.push("/user");
+  };
+
   // dataステートに値を保存
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -111,7 +115,6 @@ export default function AddUser() {
 
   // ユーザーを新規登録＆データベースに保存
   const onClickAddUser = async () => {
-    console.log(error);
     if (
       data.name === "" ||
       data.kana === "" ||
@@ -122,7 +125,6 @@ export default function AddUser() {
       data.year === "" ||
       data.permission === ""
     ) {
-      console.log("error");
       return;
     }
     try {
@@ -147,9 +149,7 @@ export default function AddUser() {
         "/user/registerconfirm"
       );
     } catch (e) {
-      console.log("--Register error--");
       setError(true);
-      console.log(e);
     }
   };
 
@@ -263,6 +263,10 @@ export default function AddUser() {
           </div>
           <button onClick={onClickAddUser} className={styles.submitBtn}>
             登録
+          </button>
+
+          <button className={styles.backBtn} onClick={onClickBack}>
+            戻る
           </button>
         </div>
       </div>

@@ -12,7 +12,12 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "src/styles/adduser.module.css";
 import db, { auth } from "../api/firebase";
-import { getAuth, updateEmail, updatePassword, deleteUser } from "firebase/auth";
+import {
+  getAuth,
+  updateEmail,
+  updatePassword,
+  deleteUser,
+} from "firebase/auth";
 
 export default function UpdateUser() {
   const router = useRouter();
@@ -118,7 +123,6 @@ export default function UpdateUser() {
 
   // ユーザーを新規登録＆データベースに保存
   const onClickUpdateUser = async () => {
-    console.log(error);
     if (
       data.name === "" ||
       data.kana === "" ||
@@ -129,7 +133,6 @@ export default function UpdateUser() {
       data.year === "" ||
       data.permission === ""
     ) {
-      console.log("error");
       return;
     }
     try {
@@ -144,13 +147,11 @@ export default function UpdateUser() {
         userId: data.email.substring(0, data.email.indexOf("@")),
         update_at: serverTimestamp(),
       });
-      await updateEmail(router.query.userId, data.email)
-      await updatePassword(router.query.userId, data.password)
+      await updateEmail(router.query.userId, data.email);
+      await updatePassword(router.query.userId, data.password);
       router.push("/user");
     } catch (e) {
-      console.log("--Register error--");
       setError(true);
-      console.log(e);
     }
   };
 
@@ -163,7 +164,6 @@ export default function UpdateUser() {
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
       if (docSnap.exists()) {
-        console.log(docSnap.data());
         setData({
           name: data.name,
           kana: data.kana,
@@ -174,9 +174,6 @@ export default function UpdateUser() {
           password: data.password,
           permission: data.permission,
         });
-        console.log(data.birth.split("/")[0]);
-      } else {
-        console.log("No document");
       }
     };
     fetch();

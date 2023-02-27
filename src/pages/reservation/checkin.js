@@ -62,7 +62,6 @@ export default function Checkin() {
       data.breakfast === null ||
       data.customer === ""
     ) {
-      console.log("error");
       return;
     }
     if (data.room_type === "シングル") {
@@ -124,7 +123,6 @@ export default function Checkin() {
       date = date - _lastDay + 1;
       month =
         new Date(_date.getFullYear(), _date.getMonth() + 1, 0).getMonth() + 2;
-      console.log(month, date);
     }
     if (
       data.checkin_month === "" ||
@@ -139,7 +137,6 @@ export default function Checkin() {
       data.customer === "" ||
       price === 0
     ) {
-      console.log("error");
       return;
     }
     await updateDoc(docRef, {

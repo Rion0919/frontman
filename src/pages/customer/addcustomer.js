@@ -33,6 +33,10 @@ export default function AddCustomer() {
   });
   const router = useRouter();
 
+  const onClickBack = () => {
+    route.push('/customer')
+  }
+
   // dataステートに値を保存
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -711,6 +715,9 @@ export default function AddCustomer() {
 
           <button className={styles.submitBtn} onClick={onClickPush}>
             登録
+          </button>
+          <button className={styles.backBtn} onClick={onClickBack}>
+            戻る
           </button>
         </div>
       </div>

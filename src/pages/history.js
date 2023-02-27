@@ -41,7 +41,6 @@ export default function History() {
         setHistories(filtered)
       })
     } else {
-      // const fetched = await getDocs(collection(db, "roomhistory"), orderBy("customer", "desc"));
       const fetched = await getDocs(collection(db, "roomhistory"));
       fetched.forEach((d) => {
         filtered.push({
@@ -57,7 +56,6 @@ export default function History() {
   }
     
   useEffect(() => {
-    console.log("history page render");
     const dataAry = [];
     const fetch = async () => {
       const fetched = await getDocs(collection(db, "roomhistory"));

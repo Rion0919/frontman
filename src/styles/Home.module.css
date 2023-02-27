@@ -62,6 +62,7 @@
   color: white;
   padding: 27px 45px;
   box-shadow: 0px 4px #00000042;
+  cursor: pointer;
 }
 
 .errorContainer {

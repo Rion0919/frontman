@@ -35,7 +35,6 @@ export default function Customer() {
     
   // 顧客削除ダイアログ表示
   const deleteCustomer = async (id) => {
-    console.log("delete", id);
     const customerRef = doc(db, "customers", id)
     const snap = await getDoc(customerRef)
     setDeleteClick((prev) => !prev);

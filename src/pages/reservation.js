@@ -45,10 +45,8 @@ export default function Reservation() {
     setClickedRoom(room);
     if (stay) {
       setStayed(true);
-      console.log(stayed);
     } else {
       setStayed(false);
-      console.log(stayed);
     }
     localStorage.setItem("roomNum", room);
   };
