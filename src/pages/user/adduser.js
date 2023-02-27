@@ -157,10 +157,12 @@ export default function AddUser() {
     createYear();
     createMonth();
     createDate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     createDate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [year, month]);
   return (
     <Layout>
