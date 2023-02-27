@@ -1,0 +1,42 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 790px;
+    margin: 120px auto;
+}
+
+.confirmText {
+    text-align: center;
+    font-size: 24px;
+}
+
+.confirmText p {
+    margin-bottom: 20px;
+}
+
+.confirmText span {
+    text-align: start;
+    display: inline-block;
+    width: 200px;
+}
+
+.userInfo {
+    display: inline-block;
+    text-align: start;
+    width: 400px;
+}
+
+.logoutBtn {
+    height: 75px;
+    width: 150px;
+    margin: 200px 60px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;font-size: large;
+    box-shadow: 0 2px 3px rgb(100, 100, 100);
+    background-color: #F14668;
+}

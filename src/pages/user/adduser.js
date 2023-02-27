@@ -1,6 +1,6 @@
 import Header from "components/Header";
 import { Layout } from "components/Layout";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, query } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "src/styles/adduser.module.css";
@@ -136,7 +136,16 @@ export default function AddUser() {
         permission: data.permission,
         userId: data.email.substring(0, data.email.indexOf("@")),
       });
-      router.push("/user");
+      router.push(
+        {
+          pathname: "/user/registerconfirm",
+          query: {
+            userId: data.email.substring(0, data.email.indexOf("@")),
+            email: data.email,
+          },
+        },
+        "/user/registerconfirm"
+      );
     } catch (e) {
       console.log("--Register error--");
       setError(true);

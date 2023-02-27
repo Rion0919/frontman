@@ -12,7 +12,7 @@ const Header = ({ title, userId, back }) => {
   const route = useRouter();
   const ref = useRef([]);
   const toTop = () => {
-    route.push({ pathname: "/top", query: {data: ref.current[1]}});
+    route.push({ pathname: "/top", query: {data: ref.current[1]}}, "/top");
   };
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -35,6 +35,7 @@ const Header = ({ title, userId, back }) => {
         route.push("/");
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const onClickSignOut = async () => {
     await signOut(auth);

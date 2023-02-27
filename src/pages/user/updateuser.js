@@ -1,11 +1,18 @@
 import Header from "components/Header";
 import { Layout } from "components/Layout";
-import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "src/styles/adduser.module.css";
 import db, { auth } from "../api/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, updateEmail, updatePassword, deleteUser } from "firebase/auth";
 
 export default function UpdateUser() {
   const router = useRouter();
@@ -126,7 +133,7 @@ export default function UpdateUser() {
       return;
     }
     try {
-      const docRef = doc(db, "users", ref.current)
+      const docRef = doc(db, "users", ref.current);
       await updateDoc(docRef, {
         email: data.email,
         password: data.password,
@@ -135,8 +142,10 @@ export default function UpdateUser() {
         birth: `${data.year}/${data.month}/${data.date}`,
         permission: data.permission,
         userId: data.email.substring(0, data.email.indexOf("@")),
-        update_at: serverTimestamp()
+        update_at: serverTimestamp(),
       });
+      await updateEmail(router.query.userId, data.email)
+      await updatePassword(router.query.userId, data.password)
       router.push("/user");
     } catch (e) {
       console.log("--Register error--");
@@ -158,14 +167,14 @@ export default function UpdateUser() {
         setData({
           name: data.name,
           kana: data.kana,
-          year: data.birth.split('/')[0],
-          month: data.birth.split('/')[1],
-          date: data.birth.split('/')[2],
+          year: data.birth.split("/")[0],
+          month: data.birth.split("/")[1],
+          date: data.birth.split("/")[2],
           email: data.email,
           password: data.password,
           permission: data.permission,
         });
-        console.log(data.birth.split('/')[0]);
+        console.log(data.birth.split("/")[0]);
       } else {
         console.log("No document");
       }
@@ -262,7 +271,7 @@ export default function UpdateUser() {
               id="common"
               name="permission"
               value="一般"
-              checked={data.permission==="一般"}
+              checked={data.permission === "一般"}
               onChange={(e) => onSelectPermission(e.target.value)}
             />
             <label htmlFor="common" className={styles.permissionLabelStyle}>
@@ -273,7 +282,7 @@ export default function UpdateUser() {
               id="root"
               name="permission"
               value="管理者"
-              checked={data.permission==="管理者"}
+              checked={data.permission === "管理者"}
               onChange={(e) => onSelectPermission(e.target.value)}
             />
             <label htmlFor="root">：管理者</label>

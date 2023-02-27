@@ -114,8 +114,6 @@ export default function User() {
             <div>氏名</div>
             <div>ユーザーID</div>
             <div>権利</div>
-            <div></div>
-            <div></div>
           </div>
           <ul>
             {users.length !== 0 ? (
@@ -126,12 +124,6 @@ export default function User() {
                   <div className={styles.userName}>{user.name}</div>
                   <div className={styles.userId}>{user.userId}</div>
                   <div className={styles.userPermission}>{user.permission}</div>
-                  <button value={user.id} onClick={toUpdateUser}>
-                    更新
-                  </button>
-                  <button onClick={() => deleteUser(user.id)}>
-                    削除
-                  </button>
                 </li>
               )
             )
@@ -141,7 +133,7 @@ export default function User() {
           </ul>
         </div>
         <button onClick={toAddUser} className={styles.addUser}>
-          顧客登録
+          ユーザー登録
         </button>
       </div>
     </Layout>
