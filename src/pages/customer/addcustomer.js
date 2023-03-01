@@ -12,6 +12,7 @@ export default function AddCustomer() {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [date, setDate] = useState(new Date().getDate());
+  const [error, setError] = useState(false);
   const [data, setData] = useState({
     japanese: japanese,
     name: "",
@@ -33,9 +34,13 @@ export default function AddCustomer() {
   });
   const router = useRouter();
 
+  const onClickDeleteError = () => {
+    setError(false);
+  };
+
   const onClickBack = () => {
-    route.push('/customer')
-  }
+    route.push("/customer");
+  };
 
   // dataステートに値を保存
   const handleChange = (e) => {
@@ -145,48 +150,129 @@ export default function AddCustomer() {
 
   // 入力した顧客データをデータベースに保存
   const onClickPush = async () => {
-    const docRef = await addDoc(collection(db, "customers"), {
-      japanese: data.japanese,
-      name: data.name,
-      kana: data.kana,
-      year: data.year,
-      month: data.month,
-      date: data.date,
-      age: data.age,
-      gender: data.gender,
-      prefecture: data.prefecture,
-      zip: data.zip,
-      address_1: data.address_1,
-      address_2: data.address_2,
-      tel: data.tel,
-      email: data.email,
-      country: data.country,
-      passport_id: data.passport_id,
-      passport_img: data.passport_img,
-      created_at: serverTimestamp(),
-      update_at: serverTimestamp()
-    });
+    if (japanese) {
+      if (
+        data.name === "" ||
+        data.kana === "" ||
+        data.year === 0 ||
+        data.month === 0 ||
+        data.date === 0 ||
+        data.age === 0 ||
+        data.prefecture === "" ||
+        data.zip === "" ||
+        data.address_1 === "" ||
+        data.tel === "" ||
+        (data.email && !data.email.includes("@"))
+      ) {
+        setError(true);
+        console.log(data.email.includes("@"));
+        return;
+      } else {
+        await addDoc(collection(db, "customers"), {
+          japanese: data.japanese,
+          name: data.name,
+          kana: data.kana,
+          year: data.year,
+          month: data.month,
+          date: data.date,
+          age: data.age,
+          gender: data.gender,
+          prefecture: data.prefecture,
+          zip: data.zip,
+          address_1: data.address_1,
+          address_2: data.address_2,
+          tel: data.tel,
+          email: data.email,
+          country: data.country,
+          passport_id: data.passport_id,
+          passport_img: data.passport_img,
+          created_at: serverTimestamp(),
+          update_at: serverTimestamp(),
+        });
 
-    setData({
-      japanese: japanese,
-      name: "",
-      kana: "",
-      year: year,
-      month: month,
-      date: data,
-      age: 0,
-      gender: "",
-      prefecture: "",
-      zip: "",
-      address_1: "",
-      address_2: "",
-      tel: "",
-      email: "",
-      country: "",
-      passport_id: "",
-      passport_img: "",
-    });
-    route.push("/customer");
+        setData({
+          japanese: japanese,
+          name: "",
+          kana: "",
+          year: year,
+          month: month,
+          date: data,
+          age: 0,
+          gender: "",
+          prefecture: "",
+          zip: "",
+          address_1: "",
+          address_2: "",
+          tel: "",
+          email: "",
+          country: "",
+          passport_id: "",
+          passport_img: "",
+        });
+        route.push("/customer");
+      }
+    } else if (!japanese) {
+      if (
+        data.name === "" ||
+        data.kana === "" ||
+        data.year === 0 ||
+        data.month === 0 ||
+        data.date === 0 ||
+        data.age === 0 ||
+        data.prefecture === "" ||
+        data.zip === "" ||
+        data.country === "" ||
+        data.passport_id === "" ||
+        data.passport_img === "" ||
+        (data.email && !data.email.includes("@"))
+      ) {
+        setError(true);
+        return;
+      } else {
+        await addDoc(collection(db, "customers"), {
+          japanese: data.japanese,
+          name: data.name,
+          kana: data.kana,
+          year: data.year,
+          month: data.month,
+          date: data.date,
+          age: data.age,
+          gender: data.gender,
+          prefecture: data.prefecture,
+          zip: data.zip,
+          address_1: data.address_1,
+          address_2: data.address_2,
+          tel: data.tel,
+          email: data.email,
+          country: data.country,
+          passport_id: data.passport_id,
+          passport_img: data.passport_img,
+          created_at: serverTimestamp(),
+          update_at: serverTimestamp(),
+        });
+
+        setData({
+          japanese: japanese,
+          name: "",
+          kana: "",
+          year: year,
+          month: month,
+          date: data,
+          age: 0,
+          gender: "",
+          prefecture: "",
+          zip: "",
+          address_1: "",
+          address_2: "",
+          tel: "",
+          email: "",
+          country: "",
+          passport_id: "",
+          passport_img: "",
+        });
+        route.push("/customer");
+      }
+    }
   };
 
   useEffect(() => {
@@ -202,8 +288,16 @@ export default function AddCustomer() {
   return (
     <Layout>
       <Header user={router.query.loginId} back title="顧客登録" />
-      <div className={styles.container}>
-        <h1>顧客登録</h1>
+      <div
+        className={styles.container}
+        onClick={() => {
+          if (error) onClickDeleteError();
+        }}
+      >
+        <h1 className={styles.title}>顧客登録</h1>
+        {error && (
+          <span className={styles.errorMsg}>入力内容に誤りがあります</span>
+        )}
         <div className={styles.formContainer}>
           <div className={styles.inputStyle}>
             <span>国籍：</span>

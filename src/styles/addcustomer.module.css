@@ -4,6 +4,14 @@
   width: 1300px;
 }
 
+.title {
+    display: inline-block;
+}
+
+.errorMsg {
+    background-color: white;
+}
+
 .container input {
     display: inline-block;
 }

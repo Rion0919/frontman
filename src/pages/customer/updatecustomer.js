@@ -13,6 +13,7 @@ export default function AddCustomer() {
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [date, setDate] = useState(new Date().getDate());
+  const [error, setError] = useState(false);
   const [dataArry, setDataArry] = useState({
     japanese: true,
     name: "",
@@ -32,6 +33,10 @@ export default function AddCustomer() {
     passport_id: "",
     passport_img: "",
   });
+
+  const onClickDeleteError = () => {
+    setError(false);
+  };
 
   const onClickBack = () => {
     route.push("/customer");
@@ -145,28 +150,88 @@ export default function AddCustomer() {
 
   // 入力した顧客データをデータベースに保存
   const onClickPush = async () => {
-    const docRef = doc(db, "customers", ref.current);
-    await updateDoc(docRef, {
-      japanese: dataArry.japanese,
-      name: dataArry.name,
-      kana: dataArry.kana,
-      year: dataArry.year,
-      month: dataArry.month,
-      date: dataArry.date,
-      age: dataArry.age,
-      gender: dataArry.gender,
-      prefecture: dataArry.prefecture,
-      zip: dataArry.zip,
-      address_1: dataArry.address_1,
-      address_2: dataArry.address_2,
-      tel: dataArry.tel,
-      email: dataArry.email,
-      country: dataArry.country,
-      passport_id: dataArry.passport_id,
-      passport_img: dataArry.passport_img,
-      update_at: serverTimestamp(),
-    });
-    route.push("/customer");
+    if (japanese) {
+      if (
+        data.name === "" ||
+        data.kana === "" ||
+        data.year === 0 ||
+        data.month === 0 ||
+        data.date === 0 ||
+        data.age === 0 ||
+        data.prefecture === "" ||
+        data.zip === "" ||
+        data.address_1 === "" ||
+        data.tel === "" ||
+        (data.email && !data.email.includes("@"))
+      ) {
+        setError(true);
+        return;
+      } else {
+        const docRef = doc(db, "customers", ref.current);
+        await updateDoc(docRef, {
+          japanese: dataArry.japanese,
+          name: dataArry.name,
+          kana: dataArry.kana,
+          year: dataArry.year,
+          month: dataArry.month,
+          date: dataArry.date,
+          age: dataArry.age,
+          gender: dataArry.gender,
+          prefecture: dataArry.prefecture,
+          zip: dataArry.zip,
+          address_1: dataArry.address_1,
+          address_2: dataArry.address_2,
+          tel: dataArry.tel,
+          email: dataArry.email,
+          country: dataArry.country,
+          passport_id: dataArry.passport_id,
+          passport_img: dataArry.passport_img,
+          update_at: serverTimestamp(),
+        });
+        route.push("/customer");
+      }
+    } else if (!japanese) {
+      if (
+        data.name === "" ||
+        data.kana === "" ||
+        data.year === 0 ||
+        data.month === 0 ||
+        data.date === 0 ||
+        data.age === 0 ||
+        data.prefecture === "" ||
+        data.zip === "" ||
+        data.address_1 === "" ||
+        data.tel === "" ||
+        (data.email && !data.email.includes("@"))
+      ) {
+        setError(true);
+        console.log(data.email.includes("@"));
+        return;
+      } else {
+        const docRef = doc(db, "customers", ref.current);
+        await updateDoc(docRef, {
+          japanese: dataArry.japanese,
+          name: dataArry.name,
+          kana: dataArry.kana,
+          year: dataArry.year,
+          month: dataArry.month,
+          date: dataArry.date,
+          age: dataArry.age,
+          gender: dataArry.gender,
+          prefecture: dataArry.prefecture,
+          zip: dataArry.zip,
+          address_1: dataArry.address_1,
+          address_2: dataArry.address_2,
+          tel: dataArry.tel,
+          email: dataArry.email,
+          country: dataArry.country,
+          passport_id: dataArry.passport_id,
+          passport_img: dataArry.passport_img,
+          update_at: serverTimestamp(),
+        });
+        route.push("/customer");
+      }
+    }
   };
 
   useEffect(() => {
@@ -210,8 +275,16 @@ export default function AddCustomer() {
   return (
     <Layout>
       <Header user={route.query.loginId} back title="顧客更新" />
-      <div className={styles.container}>
-        <h1>顧客更新</h1>
+      <div
+        className={styles.container}
+        onClick={() => {
+          if (error) onClickDeleteError();
+        }}
+      >
+        <h1 className={styles.title}>顧客更新</h1>
+        {error && (
+          <span className={styles.errorMsg}>入力内容に誤りがあります</span>
+        )}
         <div className={styles.formContainer}>
           <div className={styles.inputStyle}>
             <span>国籍：</span>
