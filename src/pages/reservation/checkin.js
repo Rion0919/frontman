@@ -28,6 +28,7 @@ export default function Checkin() {
   const [customerRef, setCustomerRef] = useState({ name: "", selected: false });
   const [stay, setStay] = useState(true);
   const [roomNum, setRoomNum] = useState("");
+  const [error, setError] = useState(false);
   const [data, setData] = useState({
     checkin_month: "",
     checkin_date: "",
@@ -48,6 +49,7 @@ export default function Checkin() {
     setData({ ...data, [name]: value });
   };
 
+  // 料金の計算
   const onClickCalc = () => {
     setPrice(0);
     if (
@@ -80,6 +82,11 @@ export default function Checkin() {
     if (data.breakfast) {
       setPrice((prev) => (prev += 2000));
     }
+  };
+
+  // エラーを非表示にする
+  const onClickDeleteError = () => {
+    setError(false);
   };
 
   // 選択した部屋タイプを取得
@@ -137,6 +144,7 @@ export default function Checkin() {
       data.customer === "" ||
       price === 0
     ) {
+      setError(true)
       return;
     }
     await updateDoc(docRef, {
@@ -173,8 +181,18 @@ export default function Checkin() {
           setData={setData}
         />
       )}
-      <div className={styles.container}>
-        <h1>{`${roomNum}号室`}</h1>
+      <div
+        className={styles.container}
+        onClick={() => {
+          if (error) onClickDeleteError();
+        }}
+      >
+        <h1 className={styles.title}>{`${roomNum}号室`}</h1>
+        {error && (
+          <span className={styles.errorMsg}>
+            入力内容に誤り/記入漏れがあります
+          </span>
+        )}
         <div className={styles.formContainer}>
           <div className={styles.inputContainer}>
             <span className={styles.checkinSpanStyle}>チェックイン日時：</span>

@@ -34,10 +34,12 @@ export default function AddCustomer() {
     passport_img: "",
   });
 
+  // エラーを非表示にする
   const onClickDeleteError = () => {
     setError(false);
   };
 
+  // 顧客トップに戻る
   const onClickBack = () => {
     route.push("/customer");
   };
@@ -283,7 +285,7 @@ export default function AddCustomer() {
       >
         <h1 className={styles.title}>顧客更新</h1>
         {error && (
-          <span className={styles.errorMsg}>入力内容に誤りがあります</span>
+          <span className={styles.errorMsg}>入力内容に誤り/記入漏れがあります</span>
         )}
         <div className={styles.formContainer}>
           <div className={styles.inputStyle}>

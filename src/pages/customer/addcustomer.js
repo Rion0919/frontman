@@ -296,7 +296,7 @@ export default function AddCustomer() {
       >
         <h1 className={styles.title}>顧客登録</h1>
         {error && (
-          <span className={styles.errorMsg}>入力内容に誤りがあります</span>
+          <span className={styles.errorMsg}>入力内容に誤り/記入漏れがあります</span>
         )}
         <div className={styles.formContainer}>
           <div className={styles.inputStyle}>

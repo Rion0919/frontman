@@ -9,6 +9,16 @@
 }
 
 .errorMsg {
+    border-radius: 20px;
+    height: 30px;
+    position: relative;
+    padding: 0 10px;
+    line-height: 30px;
+    font-weight: 600;
+    top: -10px;
+    left: 223px;
+    color: red;
+    display: inline-block;
     background-color: white;
 }
 
